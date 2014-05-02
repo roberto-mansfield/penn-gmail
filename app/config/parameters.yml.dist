@@ -13,3 +13,19 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    oauth_params:
+        client_id:        ## web app client id
+        client_secret:    ## web app client secret
+        redirect_uri:     ## callback url after oauth login e.g., https://emailapps.sas.upenn.edu/dev/penn-gmail/app_dev.php/admin/token/oauth2callback
+
+        refresh_token_file:   ## path to refresh token file
+        token_cache_file:     ## path to access token cache file
+
+        scopes:           
+            -                 https://www.googleapis.com/auth/admin.directory.orgunit
+            -                 https://www.googleapis.com/auth/admin.directory.user
+    
+    ## Google domain parameters 
+    google_app_account:     ## known account in domain so we can query customer id
+    google_customer_id:     ## customer id value (store value here to cut down on another web call)
