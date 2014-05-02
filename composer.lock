@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2c0295f7b959d7cc894ee1a78d4f3b41",
+    "hash": "6c18e861e858328bf131030337f3bfc9",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -623,6 +623,22 @@
                 "orm"
             ],
             "time": "2014-02-08 16:35:09"
+        },
+        {
+            "name": "google/google-api-php-client",
+            "version": "1.0.4-beta",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/google/google-api-php-client/archive/1.0.4-beta.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            }
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1567,9 +1583,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "google/google-api-php-client": 10
+    },
     "platform": {
         "php": ">=5.3.3"
     },
