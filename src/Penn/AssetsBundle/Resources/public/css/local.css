@@ -1,0 +1,168 @@
+h1, h2, h3, h4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+p.tip {
+	border: solid 1px black; padding: 5px;
+}
+
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.button {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* nav bar links */
+li.navbar {
+	list-style-image: url("../img/bullet-off.png");
+	color: #ffffff;
+	padding-bottom: 4px;
+	position: relative;
+}
+
+li.navbar:hover {
+	list-style-image: url("../img/bullet-on.png");
+	color: #ffffff;
+}
+
+li.link { margin-left: 25px; }
+
+a.navbar {
+	color: #dddddd;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.navbar:hover {
+	color: #ffffff;
+}
+
+a.forgot_password {
+	color: #6666ff;
+	padding-left: 25px;
+	font-size: 80%;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+a.forgot_password:hover {
+	text-decoration: underline;
+}
+
+
+/* other styles */
+ol li {
+	list-style-type: decimal;
+	padding-bottom: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+ul li {
+	padding-bottom: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+td.status {
+	width: 50px;
+	height: 30px;
+}
+
+td.status, p.ok {
+	color: #011f5b;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.shaded {
+    background:     #eeeeee;
+    padding-top:    5px;
+    padding-bottom: 5px;
+    padding-left:   3px;
+    padding-right:  3px;
+    border: solid 2px #ffffff;
+}
+
+
+.alert, .error {
+	font-weight: bold;
+	color: #990000;
+}
+
+td.status_message {
+}
+
+input.email {
+	width: 275px;
+}
+
+div.email_field {
+	padding-left: 25px;
+	padding-bottom: 15px;
+}
+
+div.email_error {
+	width: 275px;
+}
+
+div.field-label-set {
+    padding-top: 10px;
+}
+
+div.field-label {
+    width: 140px; 
+    float: left;
+}   
+
+div.field-input {
+    float: left;
+}   
+
+input.passwordField {
+    width: 200px;
+}
+
+input.nameField {
+    width: 200px;
+}
+
+label.error {
+    padding-left: 14px;
+}
+/* suppress indent of error message. validator sends a &nbsp; we use the password meter instead */
+div#accountPassword label.error {
+    padding-left: 0px;
+}
+
+table.logEntries {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.logEntries td {
+    border: solid 1px black;
+    padding: 5px;
+}
+
+table.logEntries td a {
+    text-decoration: none;
+}
+
+table.logEntries td a:hover {
+    text-decoration: underline;
+}
+
+
+table.logEntries tr:hover {
+    background: #dddddd;
+}
+
+h3.logEntries {
+    color: black;
+    font-size: 10pt;
+}
