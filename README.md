@@ -8,24 +8,24 @@ robertom@sas.upenn.edu
 
 1. Enable API access in the Google Admin panel. (Security -> bla bla)
 
-#. Find consumer key / secret in Admin panel and update parameters.yml. 
+2. Create a role / account that will be used for API access and assign the following permissions.
+    a. (check what role permissions we need)
 
-#. Create a role / account that will be used for API access and assign the following permissions.
+3. Create an "application" org (e.g., App Developers).
 
-#. Create an "application" org (e.g., App Developers).
-#. Create an application user (e.g., application).
+4. Create an application user (e.g., application@your.google.domain).
 
-#. Enable Google App Engine Admin console for your application org. 
+5. Enable Google App Engine Admin console for your application org defined above. 
     Google Dashboard -> More Controls (bottom of page) -> Other Google Services
     a. Override
     b. Switch on
 
-#. Login to the Google Developers Console and create a new project. (e.g., penn-sas-provisioning)
+6. Login to the Google Developers Console and create a new project. (e.g., penn-sas-provisioning)
     https://console.developers.google.com/
 
-#. Enable Admin SDK
+7. Enable Admin SDK in your project.
 
-#. Create client id for web application (or service account with private key?)
+8. Create client id for web application
     a. Update parameters.yml with client id and secret
     b. set oauth redirect url to match your app 
-    c. Set path for token cache and refresh token storage    
+    c. Set path for token cache and refresh token storage in parameters.yml    
