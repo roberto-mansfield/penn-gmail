@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Penn\OAuth2TokenBundle\OAuth2TokenBundle(),
             new Penn\AssetsBundle\AssetsBundle(),
+            new Penn\CosignSSOBundle\CosignSSOBundle(),
+            new Penn\AccountLogBundle\AccountLogBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

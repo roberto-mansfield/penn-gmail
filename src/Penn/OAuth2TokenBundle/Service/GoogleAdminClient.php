@@ -142,11 +142,12 @@ class GoogleAdminClient {
     
     /**
      * Validate a token returned from Google in OAuth2 callback. Resulting tokens are cached
-     * @param string $code
+     * @param string $code     The authentication code returned by Google OAuth2 
+     * @param string $username Log who generated this token
      * @throws \Exception
      */
     
-    public function authenticate($code) {
+    public function authenticate($code, $username) {
         
         try {
             $result = $this->client->authenticate($code);
@@ -158,7 +159,7 @@ class GoogleAdminClient {
          
         // store refresh token separately
         $refresh_token = array("token"      => $token_info->refresh_token,
-                               "created_by" => "robertom",
+                               "created_by" => $username,
                                "created_on" => $token_info->created);
 
         $this->storeFile($this->oauth_params['refresh_token_file'], json_encode($refresh_token));

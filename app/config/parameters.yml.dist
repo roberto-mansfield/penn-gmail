@@ -30,3 +30,8 @@ parameters:
     google_params:
       app_account:        ## known account in domain so we can query customer id
       customer_id:        ## customer id value (store value here to cut down on another web call)
+
+    ## admin users are defined here
+    admin_users:
+        ROLE_TOKEN_ADMIN: [ ## pennkeys of users who may manage the oauth token ## ]
+        ROLE_LOG_ADMIN:   [ ## pennkeys of users who may view the account log   ## ]

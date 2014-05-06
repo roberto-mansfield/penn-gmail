@@ -50,3 +50,17 @@ DirectoryIndex app.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+<Files app.php>
+    CosignProtected On
+    AuthType Cosign
+    Require valid-user
+    CosignRequireFactor   UPENN.EDU
+</Files>
+
+<Files app_dev.php>
+    CosignProtected On
+    AuthType Cosign
+    Require valid-user
+    CosignRequireFactor   UPENN.EDU
+</Files>

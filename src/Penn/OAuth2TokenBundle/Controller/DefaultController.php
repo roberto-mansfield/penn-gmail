@@ -17,6 +17,7 @@ class DefaultController extends Controller {
      */
     public function indexAction() {
     
+        $user = $this->getUser();
         $adminClient = $this->get('google_admin_client');
 
         if ( !$adminClient->isAccessTokenValid() ) {
@@ -54,10 +55,11 @@ class DefaultController extends Controller {
      */    
     public function oauth2CallbackAction(Request $request) {
     	
+        $user = $this->getUser();
     	$code = $request->query->get('code');
     	
         $adminClient = $this->get('google_admin_client');
-        $adminClient->authenticate($code);
+        $adminClient->authenticate($code, $user->getUsername());
     	
     	return array();
     }
