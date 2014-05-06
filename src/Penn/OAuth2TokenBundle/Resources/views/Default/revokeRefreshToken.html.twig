@@ -1,0 +1,6 @@
+{% extends "OAuth2TokenBundle::base.html.twig" %}
+
+{% block body %}
+<p>Refresh token revoked.</p>
+<a href="{{ path("tokenIndex") }}">Return</a>
+{% endblock %}

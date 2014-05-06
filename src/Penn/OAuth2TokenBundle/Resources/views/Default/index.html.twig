@@ -1,0 +1,39 @@
+{% extends "OAuth2TokenBundle::base.html.twig" %}
+
+{% block body %}
+Token status info:
+
+<div style="padding-top: 20px; padding-bottom: 20px;">
+    <table>
+    <tr>
+        <td>Status:</td>
+        <td>{{ token_status }}</td>
+    </tr>
+    {% if oauth_params.refresh_token is defined and oauth_params.refresh_token %}
+        <tr>
+            <td>Scope:</td>
+            <td>
+                {% for scope in oauth_params.scopes %}
+                    {{ scope }}<br/>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Created by:</td>
+            <td>{{ oauth_params.refresh_token.created_by }}</td>
+        </tr>
+        <tr>
+            <td>Created on:</td>
+            <td>{{ oauth_params.refresh_token.created_on|date('m/d/Y j:i:sa') }}</td>
+        </tr>
+        <tr>
+            <td>Customer ID:</td>
+            <td>{{ customer_id }}</td>
+        </tr>
+    {% endif %}
+    </table>
+</div>
+
+<input type="button" value="Revoke Token" onclick="if ( confirm('Are you sure?') ) { window.location='{{ path("revokeRefreshToken") }}'; } "/>
+<input type="button" value="Create New Token" onclick="window.location='{{ oauth_auth_url }}'"/>      
+{% endblock %}

@@ -16,7 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Penn\Oauth2TokenBundle\Oauth2TokenBundle(),
+            new Penn\OAuth2TokenBundle\OAuth2TokenBundle(),
             new Penn\AssetsBundle\AssetsBundle(),
         );
 

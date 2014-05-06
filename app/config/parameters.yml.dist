@@ -3,7 +3,7 @@ parameters:
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     symfony
-    database_user:     root
+    database_user:     username
     database_password: ~
 
     mailer_transport:  smtp
@@ -27,5 +27,6 @@ parameters:
             -                 https://www.googleapis.com/auth/admin.directory.user
     
     ## Google domain parameters 
-    google_app_account:     ## known account in domain so we can query customer id
-    google_customer_id:     ## customer id value (store value here to cut down on another web call)
+    google_params:
+      app_account:        ## known account in domain so we can query customer id
+      customer_id:        ## customer id value (store value here to cut down on another web call)
