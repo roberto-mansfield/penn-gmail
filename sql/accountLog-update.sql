@@ -1,0 +1,4 @@
+ALTER TABLE accountLog ADD id INTEGER AUTO_INCREMENT PRIMARY KEY;
+
+ALTER TABLE accountLog MODIFY log_timestamp DATETIME NOT NULL;
+ALTER TABLE accountLog MODIFY log_type varchar(16)   NOT NULL;

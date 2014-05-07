@@ -1,0 +1,12 @@
+{% extends "AccountLogBundle::base.html.twig" %}
+
+{% block body %}
+<script src="{{ asset("bundles/accountlog/js/search.js") }}"></script>
+<h3 class="logEntries">Account Log by User</h3>
+    
+    <p>Pennkey/PennID: <input id="search_term" value="{{ search_term }}" size="10" maxlength="16"/> <button type="button" id="search" data-search-url="{{ path("accountLogByUser") }}">Search</button></p>
+
+    {% if search_term %}
+        {% include "AccountLogBundle:Default:entries-table.html.twig" %}
+   {% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+<table class="logEntries">
+    {% for entry in entries %}
+        <tr class="logEntry">
+            <td class="timestamp"><nobr>{{ entry.logTimestamp|date('Y-m-d H:i:s') }}</nobr></td>
+            <td class="pennkey"><a href="{{ path("accountLogByUser", {"search_term": entry.pennkey}) }}">{{ entry.pennkey }}</a></td>
+            <td class="penn_id"><a href="{{ path("accountLogByUser", {"search_term": entry.pennId}) }}">{{ entry.pennId }}</a></td>
+            <td class="type">{{ entry.logType }}</td>
+            <td class="message">{{ entry.message }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td>No log entries found</td>
+        </tr>
+    {% endfor %}
+</table>
