@@ -45,7 +45,8 @@ class DefaultController extends Controller {
         return array('oauth_auth_url'   => $oauth_auth_url,
                      'token_status'     => $token_status,
                      'customer_id'      => $customer_id,
-                     'oauth_params'     => $adminClient->getOauthParams());
+                     'oauth_params'     => $adminClient->getOAuthParams(),
+                     'refresh_token'    => $adminClient->getStorage()->getRefreshToken());
     }    
     
     

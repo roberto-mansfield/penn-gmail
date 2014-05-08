@@ -1,0 +1,4 @@
+services:
+    google_admin_client:
+        class: Penn\GoogleAdminClientBundle\Service\GoogleAdminClient
+        arguments: [ @oauth2_token_storage, %oauth_params%, %google_params% ]

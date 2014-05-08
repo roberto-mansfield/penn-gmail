@@ -1,10 +1,11 @@
 <?php
 
-namespace Penn\OAuth2TokenBundle\Service;
+namespace Penn\GoogleAdminClientBundle\Service;
 
 use Google_Client;
 use Google_Service_Directory;
 use Google_Auth_Exception;
+use Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage;
 
 class GoogleAdminClient {
     
@@ -12,7 +13,7 @@ class GoogleAdminClient {
     private $google_params;
     private $client;
     
-    public function __construct($oauth_params, $google_params) {
+    public function __construct(OAuth2TokenStorage $storage, $oauth_params, $google_params) {
         
         $this->oauth_params  = $oauth_params;
         $this->google_params = $google_params;
@@ -27,16 +28,9 @@ class GoogleAdminClient {
         $this->client->setAccessType('offline');
         $this->client->setApprovalPrompt('force');
         $this->client->addScope($oauth_params['scopes']);
-
-        // check for file existence or writable files
-        if ( file_exists($oauth_params['refresh_token_file']) ) {
-            $this->oauth_params['refresh_token'] = json_decode(file_get_contents($oauth_params['refresh_token_file']), true);
-        }
         
-        if ( file_exists($oauth_params['token_cache_file']) ) {
-            $access_token = file_get_contents($oauth_params['token_cache_file']);
-            $this->client->setAccessToken($access_token);
-        }
+        $this->storage = $storage;
+        $this->client->setAccessToken($this->storage->getAccessToken());
     }
     
     /**
@@ -51,9 +45,18 @@ class GoogleAdminClient {
      * Return the Google OAuth2 parameters
      * @return array`
      */
-    public function getOauthParams() {
+    public function getOAuthParams() {
         return $this->oauth_params;
     }
+    
+    /**
+     * Return the Storage object
+     * @return OAuth2TokenStorage
+     */
+    public function getStorage() {
+        return $this->storage;
+    }
+    
     
     /**
      * Wrapper for Google_Client createAuthUrl() method
@@ -72,18 +75,20 @@ class GoogleAdminClient {
      * @return url
      */
     public function refreshToken($required=true) {
-        if ( isset($this->oauth_params['refresh_token']) &&  
-             isset($this->oauth_params['refresh_token']['token']) && 
-             $this->oauth_params['refresh_token']['token']) {
+        
+        $tokenInfo = $this->storage->getRefreshToken();
+        
+        if ( $tokenInfo && isset($tokenInfo['token']) && $tokenInfo['token'] ) {
+                 
             try {
-                $this->client->refreshToken($this->oauth_params['refresh_token']['token']);
+                $this->client->refreshToken($tokenInfo['token']);
             } catch (Google_Auth_Exception $e) {
                 if ( $required ) {
                     throw $e;
                 }
             }
             // write new access token to cache file
-            $this->storeFile($this->oauth_params['token_cache_file'], $this->client->getAccessToken());
+            $this->storage->saveAccessToken($this->client->getAccessToken());
         }
     }    
 
@@ -92,11 +97,12 @@ class GoogleAdminClient {
      * @return url
      */
     public function revokeRefreshToken() {
-        if ( isset($this->oauth_params['refresh_token']) &&  
-             isset($this->oauth_params['refresh_token']['token']) && 
-             $this->oauth_params['refresh_token']['token']) {
-            $this->client->revokeToken($this->oauth_params['refresh_token']['token']);
-            unlink($this->oauth_params['refresh_token_file']);
+
+        $tokenInfo = $this->storage->getRefreshToken();
+        
+        if ( $tokenInfo && isset($tokenInfo['token']) && $tokenInfo['token'] ) {
+            $this->client->revokeToken($tokenInfo['token']);
+            $this->storage->deleteRefreshToken();
         }
     }    
     
@@ -107,9 +113,9 @@ class GoogleAdminClient {
      */
     public function isAccessTokenValid() {
         
-        $access_token = $this->client->getAccessToken();
+        $accessToken = $this->client->getAccessToken();
         
-        if ( !$access_token ) {
+        if ( !$accessToken ) {
             return false;
         }
         
@@ -118,8 +124,8 @@ class GoogleAdminClient {
         }
         
         // extract actual token from json string
-        $access_token = json_decode($access_token, true);
-        $token = $access_token['access_token'];
+        $accessToken = json_decode($accessToken, true);
+        $token = $accessToken['access_token'];
         
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL,"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=$token");
@@ -127,12 +133,12 @@ class GoogleAdminClient {
         $response = curl_exec($curl);
         curl_close($curl);
          
-        if ( !$token_info = json_decode($response, true) ) {
+        if ( !$tokenInfo = json_decode($response, true) ) {
             throw new \Exception("Unable to decode tokeninfo response. Can't validate token");
         }
 
         // is this our token?
-        if ( isset($token_info['issued_to']) && $token_info['issued_to'] == $this->oauth_params['client_id'] ) { 
+        if ( isset($tokenInfo['issued_to']) && $tokenInfo['issued_to'] == $this->oauth_params['client_id'] ) { 
             return true;
         }
         
@@ -155,32 +161,18 @@ class GoogleAdminClient {
             throw new \Exception("Invalid code returned after OAuth2 authorization.");
         }
          
-        $token_info = json_decode($this->client->getAccessToken());
+        $tokenInfo = json_decode($this->client->getAccessToken());
          
         // store refresh token separately
-        $refresh_token = array("token"      => $token_info->refresh_token,
-                               "created_by" => $username,
-                               "created_on" => $token_info->created);
+        $refreshToken = array("token"      => $tokenInfo->refresh_token,
+                              "created_by" => $username,
+                              "created_on" => $tokenInfo->created);
 
-        $this->storeFile($this->oauth_params['refresh_token_file'], json_encode($refresh_token));
+        $this->storage->saveRefreshToken($refreshToken);
         
         // store remainder of token in token cache
-        unset($token_info->refresh_token);
-        $this->storeFile($this->oauth_params['token_cache_file'], json_encode($token_info));
-        
-    }
-    
-    /**
-     * Store the file contents and set file permissions, etc.
-     * @param string $file
-     * @param string $contents
-     */
-    private function storeFile($file, $contents) {
-        if ( !file_exists($file) ) {
-            touch($file);
-        }
-        chmod($file, 0640);
-        file_put_contents($file, $contents);
+        unset($tokenInfo->refresh_token);
+        $this->storage->saveAccessToken(json_encode($tokenInfo));
     }
     
     /**

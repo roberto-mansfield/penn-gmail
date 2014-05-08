@@ -9,7 +9,7 @@ Token status info:
         <td>Status:</td>
         <td>{{ token_status }}</td>
     </tr>
-    {% if oauth_params.refresh_token is defined and oauth_params.refresh_token %}
+    {% if token_status == 'VALID' and refresh_token %}
         <tr>
             <td>Scope:</td>
             <td>
@@ -20,11 +20,11 @@ Token status info:
         </tr>
         <tr>
             <td>Created by:</td>
-            <td>{{ oauth_params.refresh_token.created_by }}</td>
+            <td>{{ refresh_token.created_by }}</td>
         </tr>
         <tr>
             <td>Created on:</td>
-            <td>{{ oauth_params.refresh_token.created_on|date('m/d/Y j:i:sa') }}</td>
+            <td>{{ refresh_token.created_on|date('m/d/Y g:i:sa e') }}</td>
         </tr>
         <tr>
             <td>Customer ID:</td>

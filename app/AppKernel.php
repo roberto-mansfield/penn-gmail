@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Penn\AssetsBundle\AssetsBundle(),
             new Penn\CosignSSOBundle\CosignSSOBundle(),
             new Penn\AccountLogBundle\AccountLogBundle(),
+            new Penn\GoogleAdminClientBundle\GoogleAdminClientBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
