@@ -1,0 +1,16 @@
+parameters:
+    person_info:
+        client:       ~
+        wsdl:         "https://fission.sas.upenn.edu/service/PersonInfo/index.php?wsdl"
+        public_key:   "%kernel.root_dir%/config/keys/person_info/public.pem"
+        private_key:  "%kernel.root_dir%/config/keys/person_info/private.pem"
+        service_key:  "%kernel.root_dir%/config/keys/person_info/service.pem"
+
+services:
+    person_info_service:
+        class:      SAS\IRAD\PersonInfoBundle\Service\PersonInfoClient
+        arguments:   [ %person_info% ]
+
+    person_info_cache:
+        class:      SAS\IRAD\PersonInfoBundle\Service\PersonInfoCache
+        arguments:  [ @person_info_service, @session, %person_info% ]        
