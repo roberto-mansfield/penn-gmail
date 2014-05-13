@@ -2,24 +2,33 @@
 
 namespace Penn\GoogleAdminClientBundle\Service;
 
+use Google_Auth_Exception;
+use Google_Service_Exception;
 use Google_Client;
 use Google_Service_Directory;
-use Google_Auth_Exception;
+use Google_Service_Directory_User;
+use Penn\AccountLogBundle\Service\AccountLogger;
 use Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage;
 
 class GoogleAdminClient {
     
+    private $logger;
+    private $storage;
     private $oauth_params;
     private $google_params;
     private $client;
+    private $directory;
     
-    public function __construct(OAuth2TokenStorage $storage, $oauth_params, $google_params) {
+    public function __construct(AccountLogger $logger, OAuth2TokenStorage $storage, $oauth_params, $google_params) {
+        
+        $this->logger  = $logger;
+        $this->storage = $storage;
         
         $this->oauth_params  = $oauth_params;
         $this->google_params = $google_params;
 
-        $this->client = new Google_Client();
-        
+        $this->client    = new Google_Client();
+        $this->directory = new Google_Service_Directory($this->client);
         // TODO: Check for existence of all params
         
         $this->client->setClientId($oauth_params['client_id']);
@@ -29,7 +38,6 @@ class GoogleAdminClient {
         $this->client->setApprovalPrompt('force');
         $this->client->addScope($oauth_params['scopes']);
         
-        $this->storage = $storage;
         $this->client->setAccessToken($this->storage->getAccessToken());
     }
     
@@ -108,7 +116,7 @@ class GoogleAdminClient {
     
     
     /**
-     * Test if an access token is valid (i.e., not time out or revoked)
+     * Test if an access token is valid (i.e., not timed out or revoked)
      * @return boolean
      */
     public function isAccessTokenValid() {
@@ -196,5 +204,35 @@ class GoogleAdminClient {
         $customer_id  = $app_account->getCustomerId();
     
         return $customer_id;
+    }
+    
+    
+    public function getUserId($pennkey) {
+        $user_id = $pennkey . '@' . $this->google_params['domain'];
+        return $user_id;
+    }
+    
+    public function getGoogleUser(PersonInfoInterface $personInfo) {
+        if ( !$this->isAccessTokenValid() ) {
+            $this->refreshToken();
+        }
+        $user_id = $this->getUserId($personInfo->getPennkey());
+        $user    = $this->directory->users->get($user_id);
+        return new GoogleUser($user_id, $user, $personInfo, $this, $this->logger);
+    }
+    
+    public function updateGoogleUser(GoogleUser $user) {
+        
+        if ( !$this->isAccessTokenValid() ) {
+            $this->refreshToken();
+        }
+        
+        try {
+            $this->directory->users->update($user->getUserId(), $user->getServiceDirectoryUser());
+        } catch (Google_Service_Exception $e) {
+            $this->logger->log($user->getPersonInfo(), 'ERROR', $e->getMessage());
+            error_log($e->getMessage());
+            throw new Google_Service_Exception($e->getMessage(), $e->getCode());
+        }
     }
 }
