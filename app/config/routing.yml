@@ -1,3 +1,8 @@
+gmail_configure:
+    resource: "@GMailConfigureBundle/Controller/"
+    type:     annotation
+    prefix:   /gmail
+
 account_log:
     resource: "@AccountLogBundle/Controller/"
     type:     annotation

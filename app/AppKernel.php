@@ -21,6 +21,9 @@ class AppKernel extends Kernel
             new Penn\CosignSSOBundle\CosignSSOBundle(),
             new Penn\AccountLogBundle\AccountLogBundle(),
             new Penn\GoogleAdminClientBundle\GoogleAdminClientBundle(),
+            new Penn\PennGroupsBundle\PennGroupsBundle(),
+            new SAS\IRAD\PersonInfoBundle\PersonInfoBundle(),
+            new SAS\IRAD\GMailConfigureBundle\GMailConfigureBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
