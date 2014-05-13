@@ -1,0 +1,12 @@
+{% extends "GMailConfigureBundle::base.html.twig" %}
+
+{% block body %}
+    <DIV id="main" style="width: 600px">
+    
+    <p class="error">Your Google@SAS account is not ready for activation.</p>
+    
+    <p>Your account is pending, so it cannot be activated at this time. Please return<br/>
+    after {{ pending|date('g:ia') }} on {{ pending|date('n/j/Y') }} to activate your Google@SAS account.</p>
+    
+    </DIV>
+{% endblock %}

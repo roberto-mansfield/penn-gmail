@@ -1,0 +1,48 @@
+{% extends "GMailConfigureBundle::base.html.twig" %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/googleadminclient/js/googleEditName.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+        <p>Update the name on your Google@SAS account:</p>
+    
+        <form method="POST" action="{{ path('editName') }}" id="updateName" name="updateName">
+            {{ form_errors(form) }}
+            <div class="field-label-set" id="firstName">
+                <div class="field-label">
+                    <label for="first_name">{{ form_label(form.first_name) }}:</label> 
+                </div>
+                <div class="field-input">
+                    {{ form_widget(form.first_name, {'value': user.getFirstName}) }}
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="field-label-set" id="lastName">
+                <div class="field-label">
+                    <label for="last_name">{{ form_label(form.last_name) }}:</label> 
+                </div>
+                <div class="field-input">
+                    {{ form_widget(form.last_name, {'value': user.getLastName}) }}
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="field-label-set" id="formSubmit">
+                <div class="field-label">
+                    <br/>
+                </div>
+                <div class="field-input">
+                    <input type="button" name="button" id="updateNameButton" value="Continue"/>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        {{ form_end(form) }}
+    
+            
+        <div style="padding-top: 30px; padding-bottom: 30px;">
+            [ <a href="{{ path('gmailIndex') }}">Cancel</a> ]
+        </div>
+
+{% endblock %}

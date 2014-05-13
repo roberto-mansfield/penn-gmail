@@ -1,0 +1,29 @@
+<div>
+    <nobr>
+    {% if step == 'instructions' %}
+        <img src="{{ asset('bundles/assets/img/current_step/instructions.png') }}">
+    {% else %}
+        <img src="{{ asset('bundles/assets/img/step/instructions.png') }}">
+    {% endif %}
+    <img src="{{ asset('bundles/assets/img/dots.png') }}">
+    {% if action == 'create-account' %}
+        {% if step == 'create' %}
+            <img src="{{ asset('bundles/assets/img/current_step/create.png') }}">
+        {% else %}
+            <img src="{{ asset('bundles/assets/img/step/create.png') }}">
+        {% endif %}
+    {% else %}    
+        {% if step == 'reset-password' %}
+            <img src="{{ asset('bundles/assets/img/current_step/reset_password.png') }}">
+        {% else %}
+            <img src="{{ asset('bundles/assets/img/step/reset_password.png') }}">
+        {% endif %}
+    {% endif %}
+    <img src="{{ asset('bundles/assets/img/dots.png') }}">
+    {% if step == 'initialize' or step == 'reset-password-success' %}
+        <img src="{{ asset('bundles/assets/img/current_step/login-to-account.png') }}">
+    {% else %}
+        <img src="{{ asset('bundles/assets/img/step/login-to-account.png') }}">
+    {% endif %}
+    </nobr>
+</div>
