@@ -80,5 +80,14 @@ class GoogleUser {
         $created_at = strtotime($this->user->getCreationTime());
         return ( time() - $created_at < 86400 );
     }
+
+    public function isPennIdHash() {
+        $hashPennIdAccount = $this->admin->getUserId($this->admin->getPennIdHash($this->personInfo->getPennId()));
+        return ( $this->user->getPrimaryEmail() == $hashPennIdAccount );
+    }
     
+    public function isActivated() {
+        // TODO: Should org unit path be parameter?
+        return ( $this->user->getOrgUnitPath() != "/bulk-created-accounts" );
+    }
 }
