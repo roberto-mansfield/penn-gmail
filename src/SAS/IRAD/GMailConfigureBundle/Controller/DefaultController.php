@@ -39,11 +39,11 @@ class DefaultController extends Controller {
         }
         
         // are we initializing an account or resetting a password?
-        if ( $user->getOrgUnitPath() == '/bulk-created-accounts' ) {
-            $action = 'create-account';
-        } else {
+        if ( $user->isActivated() ) {
             // account alread active
             $action = 'reset-password';
+        } else {
+            $action = 'create-account';
         }
         
         return array('user'       => $user,
