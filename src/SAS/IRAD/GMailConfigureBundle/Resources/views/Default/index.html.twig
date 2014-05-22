@@ -2,72 +2,37 @@
 
 {% block css %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.validate.password.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset("bundles/assets/css/jquery.validate.password.css") }}" />
 {% endblock %}
 
 {% block javascript %}
     {{ parent() }}
-    <script src="assets/js/lib/jquery.validate.min.js"></script>
-    <script src="assets/js/lib/jquery.validate.password.js"></script>
+    <script src="{{ asset("bundles/assets/js/jquery.validate.min.js") }}"></script>
+    <script src="{{ asset("bundles/assets/js/jquery.validate.password.js") }}"></script>
+    <script src="{{ asset("bundles/googleadminclient/js/googleAccount.js") }}"></script>
 {% endblock %}
 
 
 {% block body %}
     {% include "GMailConfigureBundle:Default:account-steps.html.twig" %}
     
-    
-
     {% if action == 'reset-password' %}
-        <script src="assets/js/reset-password.js"></script>
+        <p>Here are the instructions for resetting your Google@SAS account password:</p>
+        <ul>
+            <li>Enter a new password for your account.</li>
+        </ul>
     {% else %}
-        <script src="assets/js/account-creation.js"></script>
+        <p>Here are the instructions for creating your Google@SAS account:</p>
+        <ol>
+            <li>Create a password for your new account.</li>
+            <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
+                If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
+            <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
+            <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
+        </ol>
     {% endif %}
-
-<script>
-$(document).ready(function() {
-
-    var validator = $("#instructions").validate(
-        {   rules: { 
-                password1: { password: '#username' }, 
-                password2: { required: true, equalTo: '#password1' } 
-            },
-            messages: {
-            	password2: {
-                    required: 'Please confirm password',
-            		equalTo: 'Password mismatch'
-            	}
-            },
-            submitHandler: 
-                function(form) {
-                    form.submit();
-                },
-        	debug: true
-        }
-    );
-
-    $("#password1").valid();
     
-});
-</script>
-
-
-        {% if action == 'reset-password' %}
-            <p>Here are the instructions for resetting your Google@SAS account password:</p>
-            <ul>
-                <li>Enter a new password for your account.</li>
-            </ul>
-        {% else %}
-            <p>Here are the instructions for creating your Google@SAS account:</p>
-            <ol>
-                <li>Create a password for your new account.</li>
-                <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
-                    If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
-                <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
-                <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
-            </ol>
-        {% endif %}
-    
-    <form method="POST" action="provision.php" id="instructions" name="instructions">
+    <form method="POST" action="provision.php" id="set-password">
     <input type="hidden" name="action" value="<?php echo $template['next_action']; ?>"/>
     <input type="hidden" name="token_hash" id="token_hash" value="<?php echo $template['token_hash']; ?>"/>
     <input type="hidden" name="username" id="username" value="<?php echo $template['username']; ?>"/>
