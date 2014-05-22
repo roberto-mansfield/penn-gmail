@@ -7,6 +7,7 @@ use Google_Service_Exception;
 use Google_Client;
 use Google_Service_Directory;
 use Google_Service_Directory_User;
+use Google_Service_Directory_UserName;
 use Penn\AccountLogBundle\Service\AccountLogger;
 use Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage;
 
@@ -195,7 +196,7 @@ class GoogleAdminClient {
     /**
      * Return the customer id associated with google_params.app_account. This value should be 
      * stored in google_params.customer_id, but we need a method so we can initially find the
-     * value and display it in the admin token manager.
+     * value and display it in the admin token manager. (Do we need this anymore?)
      */
     public function getCustomerId() {
         
@@ -206,21 +207,91 @@ class GoogleAdminClient {
         return $customer_id;
     }
     
-    
-    public function getUserId($pennkey) {
-        $user_id = $pennkey . '@' . $this->google_params['domain'];
+    /**
+     * Build a google user id for the domain specified in parameters.yml
+     * @param string $identifier
+     * @return string
+     */
+    public function getUserId($identifier) {
+        $user_id = $identifier . '@' . $this->google_params['domain'];
         return $user_id;
     }
     
+    /**
+     * Return a standard hash of the pennId so we can generate
+     * non-guessable usernames for gmail accounts (to avoid a
+     * sequential spam attack)
+     * @param string $penn_id
+     * @return string md5hash
+     */
+    public function getPennIdHash($penn_id) {
+        // salt the penn_id with a random value
+        return md5($penn_id . $this->google_params['hash_salt']);
+    }
+    
+    
+    /**
+     * Return a google user object for the person specified in PersonInfo. Checks 
+     * first for user matching by pennkey, then by penn_id hash. If neither is 
+     * found, return false.
+     * @param PersonInfoInterface $personInfo
+     * @return GoogleUser
+     */
     public function getGoogleUser(PersonInfoInterface $personInfo) {
+        
         if ( !$this->isAccessTokenValid() ) {
             $this->refreshToken();
         }
-        $user_id = $this->getUserId($personInfo->getPennkey());
-        $user    = $this->directory->users->get($user_id);
-        return new GoogleUser($user_id, $user, $personInfo, $this, $this->logger);
+
+        $user = false;
+        
+        // do we have a pennkey?
+        if ( $personInfo->getPennkey() ) {
+            $user_id = $this->getUserId($personInfo->getPennkey());
+            $user = $this->_queryDirectoryUsers($user_id);
+        }
+        
+        // if not found by pennkey, try by penn_id hash
+        if ( !$user ) {
+            // we should definitely have a penn_id
+            $user_id = $this->getUserId($this->getPennIdHash($personInfo->getPennId()));
+            $user = $this->_queryDirectoryUsers($user_id);
+        }
+        
+        if ( $user ) {
+            return new GoogleUser($user_id, $user, $personInfo, $this, $this->logger);
+        }
+        
+        return false;
     }
     
+    /**
+     * Perform query via Google Directory Service for specified user. Returns false if 
+     * user is not found. If google returns any other exception, that exception is thrown.
+     * @param string $user_id
+     * @throws Google_Service_Exception
+     * @returns Google_Service_Directory_User
+     */
+    private function _queryDirectoryUsers($user_id) {
+        try {
+            $user = $this->directory->users->get($user_id);
+        } catch ( Google_Service_Exception $e ) {
+            // if user doesn't exist
+            if ( preg_match("/Resource Not Found: userKey/", $e->getMessage()) ) {
+                // return false
+                return false;
+            }
+            // some other error occurred, throw original exception
+            throw $e;
+        }
+        return $user;
+    }
+    
+    /**
+     * Save changes made to a GoogleUser object
+     * @param GoogleUser $user
+     * @throws Google_Service_Exception
+     */
     public function updateGoogleUser(GoogleUser $user) {
         
         if ( !$this->isAccessTokenValid() ) {
@@ -234,5 +305,73 @@ class GoogleAdminClient {
             error_log($e->getMessage());
             throw new Google_Service_Exception($e->getMessage(), $e->getCode());
         }
+    }
+    
+    /**
+     * Create a new Google Service Directory User
+     * @param PersonInfo $personInfo
+     * @param string $password_hash sha1 hash of user's password
+     * @throws Google_Service_Exception
+     */
+    public function createGoogleUser(PersonInfo $personInfo, $password_hash) {
+    
+        if ( !$this->isAccessTokenValid() ) {
+            $this->refreshToken();
+        }
+    
+        if ( $personInfo->getPennkey() ) {
+            $user_id = $this->getUserId($personInfo->getPennkey());
+        } else {
+            $user_id = $this->getUserId($this->getPennIdHash($personInfo->getPennId()));
+        }
+        
+        $user = new Google_Service_Directory_User();
+        $user->setPrimaryEmail($user_id);
+        $user->setHashFunction('SHA-1');
+        $user->setPassword($password_hash);
+        
+        // TODO: should this be a parameter?
+        $user->setOrgUnitPath("/bulk-created-accounts");
+        
+        $name = new Google_Service_Directory_UserName();
+        $name->setFamilyName($personInfo->getLastName());
+        $name->setGivenName($personInfo->getFirstName());
+        $user->setName($name);
+        
+        try {
+            $this->directory->users->insert($user);
+        } catch (Google_Service_Exception $e) {
+            // log exception before throwing
+            $this->logger->log($personInfo, 'ERROR', $e->getMessage());
+            error_log($e->getMessage());
+            throw $e;
+        }
+        
+        // log success message
+        $this->logger->log($personInfo, 'CREATE', "GMail account created.");
+    }
+
+    /**
+     * Delete a Google Account
+     * @param GoogleUser $user
+     * @throws Google_Service_Exception
+     */
+    public function deleteGoogleUser(GoogleUser $user) {
+
+        if ( !$this->isAccessTokenValid() ) {
+            $this->refreshToken();
+        }        
+        
+        try {
+            $this->directory->users->delete($user->getUserId());
+        } catch (Google_Service_Exception $e) {
+            // log exception before throwing
+            $this->logger->log($user->getPersonInfo(), 'ERROR', 'Error deleting GMail account: ' . $e->getMessage());
+            error_log($e->getMessage());
+            throw $e;
+        }
+        
+        // log success message
+        $this->logger->log($user->getPersonInfo(), 'CREATE', "GMail account deleted.");        
     }
 }
