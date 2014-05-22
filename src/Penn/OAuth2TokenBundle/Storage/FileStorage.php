@@ -127,7 +127,7 @@ class FileStorage {
 
         if ( !file_exists($this->path) ) {
             touch($this->path);
-            chmod($this->path, 0640);
+            chmod($this->path, 0660);
         }
         
         $this->fh = fopen($this->path, $mode);
