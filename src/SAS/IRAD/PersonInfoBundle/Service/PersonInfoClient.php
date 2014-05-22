@@ -4,6 +4,7 @@ namespace SAS\IRAD\PersonInfoBundle\Service;
 
 use SoapClient;
 use SimpleXMLElement;
+use Penn\GoogleAdminClientBundle\Service\PersonInfo;
 
 // use ini_set to adjust wsdl cache time-to-live value during development
 // ini_set("soap.wsdl_cache_ttl", 1);
@@ -34,8 +35,11 @@ Class PersonInfoClient {
      */
     public function searchByPennkey($pennkey) {
         $info = $this->getInfo('PersonInfoFromPennkey', compact('pennkey'));
-        $info['pennkey'] = $pennkey;
-        return new PersonInfo($info);
+        if ( $info ) {
+            $info['pennkey'] = $pennkey;
+            return new PersonInfo($info);
+        }
+        return false;
     }
 
     /**
@@ -46,8 +50,11 @@ Class PersonInfoClient {
      */
     public function searchByPennID($penn_id) {
         $info = $this->getInfo('PersonInfoFromPennID', compact('penn_id'));
-        $info['penn_id'] = $penn_id;
-        return new PersonInfo($info);
+        if ( $info ) {
+            $info['penn_id'] = $penn_id;
+            return new PersonInfo($info);
+        }
+        return false;
     }
 
     /**
@@ -154,10 +161,13 @@ Class PersonInfoClient {
             $result[strtolower($element->getName())] = (string) $element;
         }
         
-        // convert names to name case
-        $convert = new NameCase($result);
-        $result['first_name'] = $convert->firstName();
-        $result['last_name']  = $convert->lastName();
+        // do we have a result?
+        if ( $result ) {
+            // convert names to name case
+            $convert = new NameCase($result);
+            $result['first_name'] = $convert->firstName();
+            $result['last_name']  = $convert->lastName();
+        }
         
         return $result;
     }
