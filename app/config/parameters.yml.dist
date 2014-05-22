@@ -28,8 +28,10 @@ parameters:
     
     ## Google domain parameters 
     google_params:
+        domain:           ## domain for gmail email
         app_account:      ## known account in domain so we can query customer id
         customer_id:      ## customer id value (store value here to cut down on another web call)
+        hash_salt:        ## salt string creating penn_id hash values
 
     ## admin users are defined here
     admin_users:
