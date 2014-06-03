@@ -1,5 +1,0 @@
-services:
-    security.authentication.factory.cosign_sso:
-        class:  Penn\CosignSSOBundle\DependencyInjection\Security\Factory\CosignSSOFactory
-        tags:
-            - { name: security.listener.factory }

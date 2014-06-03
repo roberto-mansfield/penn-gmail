@@ -21,24 +21,29 @@
 		"sensio/framework-extra-bundle" : "~3.0",
 		"sensio/generator-bundle" : "~2.3",
 		"incenteev/composer-parameter-handler" : "~2.0",
-		"google/google-api-php-client": "1.0.4-beta"
+		"google/google-api-php-client" : "1.0.4-beta",
+		"sas-irad/cosign-sso-bundle" : "0.2"
 	},
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "google/google-api-php-client",
-                "version": "1.0.4-beta",
-                "dist": {
-                    "url": "https://github.com/google/google-api-php-client/archive/1.0.4-beta.zip",
-                    "type": "zip"
-                },
-                "autoload": {
-                    "classmap": ["src/"]
-                }
-            }
-        }
-    ],	
+	"repositories" : [{
+			"type" : "package",
+			"package" : {
+				"name" : "google/google-api-php-client",
+				"version" : "1.0.4-beta",
+				"dist" : {
+					"url" : "https://github.com/google/google-api-php-client/archive/1.0.4-beta.zip",
+					"type" : "zip"
+				},
+				"autoload" : {
+					"classmap" : [
+						"src/"
+					]
+				}
+			}
+		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/cosign-sso-bundle"
+		}
+	],
 	"scripts" : {
 		"post-install-cmd" : [
 			"Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
