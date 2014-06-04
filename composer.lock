@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c7805ac2b89a4ed9fc7ebb0cf4fa7574",
+    "hash": "c389e88396604d7166fa0ee518b08812",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1006,6 +1006,48 @@
                 "issues": "https://github.com/sas-irad/gmail-account-log-bundle/issues"
             },
             "time": "2014-06-04 14:06:38"
+        },
+        {
+            "name": "sas-irad/gmail-oauth2-token-bundle",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sas-irad/gmail-oauth2-token-bundle.git",
+                "reference": "1999954addbe138df0abe24cc2be4c8b58a84b77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sas-irad/gmail-oauth2-token-bundle/zipball/1999954addbe138df0abe24cc2be4c8b58a84b77",
+                "reference": "1999954addbe138df0abe24cc2be4c8b58a84b77",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": ">=2.1,<2.2-dev"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SAS\\IRAD\\GmailOAuth2TokenBundle\\": ""
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Mansfield",
+                    "email": "robertom@sas.upenn.edu"
+                }
+            ],
+            "description": "Bundle for managing GMail OAuth2 authentication token",
+            "support": {
+                "source": "https://github.com/sas-irad/gmail-oauth2-token-bundle/tree/v0.1.0",
+                "issues": "https://github.com/sas-irad/gmail-oauth2-token-bundle/issues"
+            },
+            "time": "2014-06-04 15:20:43"
         },
         {
             "name": "sensio/distribution-bundle",

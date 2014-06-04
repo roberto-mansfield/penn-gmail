@@ -1,4 +1,0 @@
-services:
-    oauth2_token_storage:
-        class: Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage
-        arguments: [ %oauth_params% ]

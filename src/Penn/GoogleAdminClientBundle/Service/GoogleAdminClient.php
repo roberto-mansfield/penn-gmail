@@ -9,7 +9,7 @@ use Google_Service_Directory;
 use Google_Service_Directory_User;
 use Google_Service_Directory_UserName;
 use SAS\IRAD\GmailAccountLogBundle\Service\AccountLogger;
-use Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage;
+use SAS\IRAD\GmailOAuth2TokenBundle\Service\OAuth2TokenStorage;
 
 class GoogleAdminClient {
     
