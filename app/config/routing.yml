@@ -4,7 +4,7 @@ gmail_configure:
     prefix:   /gmail
 
 account_log:
-    resource: "@AccountLogBundle/Controller/"
+    resource: "@GmailAccountLogBundle/Controller/"
     type:     annotation
     prefix:   /admin/accountLog
 

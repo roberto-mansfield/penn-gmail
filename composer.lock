@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13860b8069b22f2b21284d8930d313ab",
+    "hash": "c7805ac2b89a4ed9fc7ebb0cf4fa7574",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -925,16 +925,16 @@
         },
         {
             "name": "sas-irad/cosign-sso-bundle",
-            "version": "v0.2",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/cosign-sso-bundle.git",
-                "reference": "abcd58339bd9abd2b19175ca80883320f7dd044e"
+                "reference": "70a10a8f3cc7b67a156dd32dac37393892065874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/cosign-sso-bundle/zipball/abcd58339bd9abd2b19175ca80883320f7dd044e",
-                "reference": "abcd58339bd9abd2b19175ca80883320f7dd044e",
+                "url": "https://api.github.com/repos/sas-irad/cosign-sso-bundle/zipball/70a10a8f3cc7b67a156dd32dac37393892065874",
+                "reference": "70a10a8f3cc7b67a156dd32dac37393892065874",
                 "shasum": ""
             },
             "require": {
@@ -946,7 +946,7 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "Penn\\CosignSSOBundle\\": ""
+                    "SAS\\IRAD\\CosignSSOBundle\\": ""
                 }
             },
             "license": [
@@ -963,7 +963,49 @@
                 "source": "https://github.com/sas-irad/cosign-sso-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/cosign-sso-bundle/issues"
             },
-            "time": "2014-06-03 21:21:22"
+            "time": "2014-06-04 14:25:28"
+        },
+        {
+            "name": "sas-irad/gmail-account-log-bundle",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sas-irad/gmail-account-log-bundle.git",
+                "reference": "f75da46716d7f47b6e89e2db5641df6e04ea6af9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/f75da46716d7f47b6e89e2db5641df6e04ea6af9",
+                "reference": "f75da46716d7f47b6e89e2db5641df6e04ea6af9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": ">=2.1,<2.2-dev"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SAS\\IRAD\\GmailAccountLogBundle\\": ""
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Mansfield",
+                    "email": "robertom@sas.upenn.edu"
+                }
+            ],
+            "description": "Bundle for logging GMail account provisioning",
+            "support": {
+                "source": "https://github.com/sas-irad/gmail-account-log-bundle/tree/master",
+                "issues": "https://github.com/sas-irad/gmail-account-log-bundle/issues"
+            },
+            "time": "2014-06-04 14:06:38"
         },
         {
             "name": "sensio/distribution-bundle",

@@ -16,10 +16,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            new SAS\IRAD\CosignSSOBundle\CosignSSOBundle(),
+            new SAS\IRAD\GmailAccountLogBundle\GmailAccountLogBundle(),
+
             new Penn\OAuth2TokenBundle\OAuth2TokenBundle(),
             new Penn\AssetsBundle\AssetsBundle(),
-            new Penn\CosignSSOBundle\CosignSSOBundle(),
-            new Penn\AccountLogBundle\AccountLogBundle(),
             new Penn\GoogleAdminClientBundle\GoogleAdminClientBundle(),
             new Penn\PennGroupsBundle\PennGroupsBundle(),
             new SAS\IRAD\PersonInfoBundle\PersonInfoBundle(),

@@ -5,7 +5,7 @@ namespace Penn\GoogleAdminClientBundle\Service;
 use Google_Auth_Exception;
 use Google_Service_Directory_User_Resource;
 use Google_Service_Directory_User;
-use Penn\AccountLogBundle\Service\AccountLogger;
+use SAS\IRAD\GmailAccountLogBundle\Service\AccountLogger;
 
 class GoogleUser {
     

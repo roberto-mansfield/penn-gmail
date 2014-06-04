@@ -22,7 +22,8 @@
 		"sensio/generator-bundle" : "~2.3",
 		"incenteev/composer-parameter-handler" : "~2.0",
 		"google/google-api-php-client" : "1.0.4-beta",
-		"sas-irad/cosign-sso-bundle" : "0.2"
+		"sas-irad/cosign-sso-bundle" : "0.2.1",
+		"sas-irad/gmail-account-log-bundle" : "0.1.0"
 	},
 	"repositories" : [{
 			"type" : "package",
@@ -42,18 +43,19 @@
 		}, {
 			"type" : "vcs",
 			"url" : "https://github.com/sas-irad/cosign-sso-bundle"
+		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/gmail-account-log-bundle"
 		}
 	],
 	"scripts" : {
 		"post-install-cmd" : [
-			"Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
 		],
 		"post-update-cmd" : [
-			"Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",

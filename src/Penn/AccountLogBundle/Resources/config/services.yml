@@ -1,5 +1,0 @@
-services:
-
-    account_logger:
-        class:      Penn\AccountLogBundle\Service\AccountLogger
-        arguments:  [ @doctrine.orm.entity_manager ]

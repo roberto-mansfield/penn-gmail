@@ -8,7 +8,7 @@ use Google_Client;
 use Google_Service_Directory;
 use Google_Service_Directory_User;
 use Google_Service_Directory_UserName;
-use Penn\AccountLogBundle\Service\AccountLogger;
+use SAS\IRAD\GmailAccountLogBundle\Service\AccountLogger;
 use Penn\OAuth2TokenBundle\Service\OAuth2TokenStorage;
 
 class GoogleAdminClient {
