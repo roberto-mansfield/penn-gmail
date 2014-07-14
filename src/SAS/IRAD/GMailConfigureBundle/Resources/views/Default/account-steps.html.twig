@@ -1,4 +1,4 @@
-<div>
+<div id="step-{{ step }}" {% if not visible %}style="display: none"{% endif %} class="steps">
     <nobr>
     {% if step == 'instructions' %}
         <img src="{{ asset('bundles/assets/img/current_step/instructions.png') }}">
@@ -20,7 +20,7 @@
         {% endif %}
     {% endif %}
     <img src="{{ asset('bundles/assets/img/dots.png') }}">
-    {% if step == 'initialize' or step == 'reset-password-success' %}
+    {% if step == 'login' %}
         <img src="{{ asset('bundles/assets/img/current_step/login-to-account.png') }}">
     {% else %}
         <img src="{{ asset('bundles/assets/img/step/login-to-account.png') }}">

@@ -4,9 +4,11 @@ namespace SAS\IRAD\GMailConfigureBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Penn\GoogleAdminClientBundle\Form\Type\GoogleNameType;
+use SAS\IRAD\GoogleAdminClientBundle\Form\Type\AccountFormType;
+use SAS\IRAD\GoogleAdminClientBundle\Form\Type\GoogleNameType;
 
 
 class DefaultController extends Controller {
@@ -17,11 +19,11 @@ class DefaultController extends Controller {
      */
     public function indexAction() {
         
-        $service = $this->get('person_info_cache');
+        $service = $this->get('penngroups.query_cache');
         $gmail   = $this->get('google_admin_client');
         
         $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->searchByPennkey($pennkey);
+        $personInfo = $service->findByPennkey($pennkey);
 
         // does the account exist?
         try {
@@ -46,9 +48,11 @@ class DefaultController extends Controller {
             $action = 'create-account';
         }
         
-        return array('user'       => $user,
-                     'action'     => $action,
-                     'step'       => 'instructions');
+        $accountForm = $this->createForm(new AccountFormType());
+        
+        return array('user'        => $user,
+                     'action'      => $action,
+                     'accountForm' => $accountForm->createView());
     }
     
     /**
@@ -57,11 +61,11 @@ class DefaultController extends Controller {
      */
     public function editNameAction(Request $request) {
 
-        $service = $this->get('person_info_cache');
+        $service = $this->get('penngroups.query_cache');
         $gmail   = $this->get('google_admin_client');
         
         $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->searchByPennkey($pennkey);
+        $personInfo = $service->findByPennkey($pennkey);
         
         $user = $gmail->getGoogleUser($personInfo);
         
@@ -109,5 +113,76 @@ class DefaultController extends Controller {
         $pending = $user->getCreationTime() + 86400 - time();
         
         return array('pending' => $pending);
-    }    
+    }
+    
+    
+    /**
+     * @Route("/ajax/reset-password", name="resetPassword")
+     */
+    public function resetPasswordAction() {
+
+        $service = $this->get('penngroups.query_cache');
+        $gmail   = $this->get('google_admin_client');
+        
+        $pennkey    = $this->getUser()->getUsername();
+        $personInfo = $service->findByPennkey($pennkey);
+
+        // does the account exist?
+        try {
+            $user = $gmail->getGoogleUser($personInfo);
+        
+        } catch (\Exception $e ) {
+            // account hasn't been provisioned yet
+            return $this->jsonError("Invalid account");
+        }
+        
+        // when was the account created (force 24hr delay before user can access acount
+        if ( $user->isAccountPending() ) {
+            return $this->jsonError("Account is pending");
+        }
+        
+        // is the account initialized?
+        if ( !$user->isActivated() ) {
+            return $this->jsonError("Uninitialized account");
+        }
+        
+        $request = $this->getRequest();
+        
+        if ( $request->getMethod() != 'POST') {
+            return $this->jsonError("Invalid method");
+        }      
+        
+        $accountForm = $this->createForm(new AccountFormType());
+        $accountForm->handleRequest($request);
+        $params = $request->request->get("AccountForm");
+        
+        if ( !$accountForm->isValid() ) {
+            return $this->jsonError("Invalid form");
+        }
+        
+        $user->setPassword($params['password1']);
+        
+        return $this->json(array("result"  => "OK", 
+                                 "message" => "Password reset complete",
+                                 "content" => $this->renderView("GMailConfigureBundle:Default:passwordResetSuccess.html.twig",
+                                                    array("userId" => $user->getUserId()))
+                ));
+    }
+
+    
+    
+    private function jsonError($message) {
+        return $this->json(array("result" => "ERROR", "message" => $message));
+    }
+    
+    /**
+     * Return a JSON response from the controller
+     * @param array $array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    private function json($array) {
+        $response = new JsonResponse();
+        $response->setData($array);
+        return $response;
+    }
 }

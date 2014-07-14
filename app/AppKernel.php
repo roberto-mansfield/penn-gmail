@@ -22,9 +22,8 @@ class AppKernel extends Kernel
             new SAS\IRAD\GmailOAuth2TokenBundle\GmailOAuth2TokenBundle(),
 
             new Penn\AssetsBundle\AssetsBundle(),
-            new Penn\GoogleAdminClientBundle\GoogleAdminClientBundle(),
-            new Penn\PennGroupsBundle\PennGroupsBundle(),
-            new SAS\IRAD\PersonInfoBundle\PersonInfoBundle(),
+            new SAS\IRAD\GoogleAdminClientBundle\GoogleAdminClientBundle(),
+            new SAS\IRAD\PennGroupsBundle\PennGroupsBundle(),
             new SAS\IRAD\GMailConfigureBundle\GMailConfigureBundle(),
         );
 

@@ -24,7 +24,8 @@
 		"google/google-api-php-client" : "1.0.4-beta",
 		"sas-irad/cosign-sso-bundle" : "0.2.1",
 		"sas-irad/gmail-account-log-bundle" : "0.1.0",
-		"sas-irad/gmail-oauth2-token-bundle" : "0.1.0"
+		"sas-irad/gmail-oauth2-token-bundle" : "0.1.0",
+		"sas-irad/penngroups-bundle" : "dev-master"
 	},
 	"repositories" : [{
 			"type" : "package",
@@ -48,8 +49,11 @@
 			"type" : "vcs",
 			"url" : "https://github.com/sas-irad/gmail-account-log-bundle"
 		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/gmail-oauth2-token-bundle"
+		}, {
             "type" : "vcs",
-            "url" : "https://github.com/sas-irad/gmail-oauth2-token-bundle"
+            "url" : "https://github.com/sas-irad/penngroups-bundle"
         }
 	],
 	"scripts" : {

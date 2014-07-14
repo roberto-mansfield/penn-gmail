@@ -9,110 +9,127 @@
     {{ parent() }}
     <script src="{{ asset("bundles/assets/js/jquery.validate.min.js") }}"></script>
     <script src="{{ asset("bundles/assets/js/jquery.validate.password.js") }}"></script>
-    <script src="{{ asset("bundles/googleadminclient/js/googleAccount.js") }}"></script>
+    <script src="{{ asset("bundles/gmailconfigure/js/googleAccount.js") }}"></script>
 {% endblock %}
 
 
 {% block body %}
-    {% include "GMailConfigureBundle:Default:account-steps.html.twig" %}
     
     {% if action == 'reset-password' %}
-        <p>Here are the instructions for resetting your Google@SAS account password:</p>
-        <ul>
-            <li>Enter a new password for your account.</li>
-        </ul>
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"instructions", "visible":true} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"reset-password", "visible": false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"login", "visible":false} %}
     {% else %}
-        <p>Here are the instructions for creating your Google@SAS account:</p>
-        <ol>
-            <li>Create a password for your new account.</li>
-            <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
-                If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
-            <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
-            <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
-        </ol>
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"instructions", "visible":true} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"create", "visible": false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"login", "visible":false} %}
     {% endif %}
-    
-    <form method="POST" action="provision.php" id="set-password">
-    <input type="hidden" name="action" value="<?php echo $template['next_action']; ?>"/>
-    <input type="hidden" name="token_hash" id="token_hash" value="<?php echo $template['token_hash']; ?>"/>
-    <input type="hidden" name="username" id="username" value="<?php echo $template['username']; ?>"/>
-    
-    <div class="field-label-set" id="fullname">
-        <div class="field-label">
-            <label for="fullname">Full name:</label> 
-        </div>
-        <div class="field-input">
-            {{ user.getFullName }}
-            {% if action == 'reset-password' %}
-                {# give user the option to update his/her fullname #}
-                <div style="font-size: 80%">
-                    (<a href="{{ path('editName') }}">Change how your name appears in your account</a>)
-                </div>
-            {% endif %}
-        </div>
-        <div style="clear: both;"></div>
-    </div>
-    
-    <div class="field-label-set" id="username">
-        <div class="field-label">
-            <label for="username">Username:</label> 
-        </div>
-        <div class="field-input">
-            {{ user.getUserId }}
-        </div>
-        <div style="clear: both;"></div>
-    </div>
 
-    <div class="field-label-set" id="accountPassword">
-        <div class="field-label">
-            <label for="password1">Account Password:</label>
-        </div>
-        <div class="field-input">
-            <input type="password" name="password1" id="password1" class="passwordField"/>
-        </div>
-        <div class="password-meter" style="float: left">
-            <div class="password-meter-message">&nbsp;</div>
-            <div class="password-meter-bg">
-                <div class="password-meter-bar"></div>
-            </div>
-        </div>
-        <div style="clear: both;"></div>
-    </div>
+    <div id="content">
+        {% if action == 'reset-password' %}    
+            <p>Here are the instructions for resetting your Google@SAS account password:</p>
+            <ul>
+                <li>Enter a new password for your account.</li>
+            </ul>
+            {% set buttonId = "resetPasswordButton" %}
+            {% set formUrl  = path("resetPassword") %}
     
-    <div class="field-label-set" id="confirmAccountPassword">
-        <div class="field-label">
-            <label for="password2">Confirm Password:</label> 
-        </div>
-        <div class="field-input">
-            <input type="password" name="password2" id="password2" class="passwordField"/>
-        </div>
-        <div style="clear: both;"></div>
-    </div>
-
-    {% if action == 'create-account' %}
-        <div class="field-label-set" id="mailForwardingOption">
+        {% else %}
+            <p>Here are the instructions for creating your Google@SAS account:</p>
+            <ol>
+                <li>Create a password for your new account.</li>
+                <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
+                    If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
+                <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
+                <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
+            </ol>
+            {% set buttonId = "createAccountButton" %}
+            {% set formUrl  = path("resetPassword") %}
+        {% endif %}
+    
+        <form method="POST" action="{{ formUrl }}" id="account-form">
+        
+        <div class="field-label-set" id="fullname">
             <div class="field-label">
-                <label for="mail_forwarding"><br/></label> 
+                <label for="fullname">Full name:</label> 
             </div>
             <div class="field-input">
-                <input type="checkbox" name="mail_forwarding" id="mail_forwarding" value="yes" checked="checked" onChange="forwardingAlert()"/> Deliver email to this account
+                {{ user.getFullName }}
+                {% if action == 'reset-password' %}
+                    {# give user the option to update his/her fullname #}
+                    <div style="font-size: 80%">
+                        (<a href="{{ path('editName') }}">Change how your name appears in your account</a>)
+                    </div>
+                {% endif %}
             </div>
             <div style="clear: both;"></div>
         </div>
-    {% endif %}
+        
+        <div class="field-label-set" id="username">
+            <div class="field-label">
+                <label for="username">Username:</label> 
+            </div>
+            <div class="field-input">
+                {{ user.getUserId }}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    
+        <div class="field-label-set" id="accountPassword">
+            <div class="field-label">
+                <label for="password1">Account Password:</label>
+            </div>
+            <div class="field-input">
+                {{ form_widget(accountForm.password1) }}
+            </div>
+            <div class="password-meter" style="float: left">
+                <div class="password-meter-message">&nbsp;</div>
+                <div class="password-meter-bg">
+                    <div class="password-meter-bar"></div>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="field-label-set" id="confirmAccountPassword">
+            <div class="field-label">
+                <label for="password2">Confirm Password:</label> 
+            </div>
+            <div class="field-input">
+                {{ form_widget(accountForm.password2) }}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    
+        {% if action == 'create-account' %}
+            <div class="field-label-set" id="mailForwardingOption">
+                <div class="field-label">
+                    <label for="mail_forwarding"><br/></label> 
+                </div>
+                <div class="field-input">
+                    <input type="checkbox" name="mail_forwarding" id="mail_forwarding" value="yes" checked="checked" onChange="forwardingAlert()"/> Deliver email to this account
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        {% endif %}
 
-    
-    <div class="field-label-set" id="formSubmit">
-        <div class="field-label">
-            <br/>
+        <div style="display: none">
+            {{ form_widget(accountForm.username, {"value": user.userId}) }}
+            {{ form_widget(accountForm) }}
         </div>
-        <div class="field-input">
-            <input type="button" name="button" value="Continue" id="{% if action == 'create-account' %}createAccountButton{% else %}resetPasswordButton{% endif %}" />
+        
+        <div class="field-label-set" id="formSubmit">
+            <div class="field-label">
+                <br/>
+            </div>
+            <div class="field-input">
+                <input type="button" name="button" value="Continue" id="{{ buttonId }}" />
+            </div>
+            <div style="clear: both;"></div>
         </div>
-        <div style="clear: both;"></div>
+        
+        </form>
     </div>
-    
-    </form>
 
 {% endblock %}
 

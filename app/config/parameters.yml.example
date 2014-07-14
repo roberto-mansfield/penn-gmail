@@ -37,3 +37,10 @@ parameters:
     admin_users:
         ROLE_TOKEN_ADMIN: [ ## pennkeys of users who may manage the oauth token ## ]
         ROLE_LOG_ADMIN:   [ ## pennkeys of users who may view the account log   ## ]
+        
+    ## define parameters for connecting to PennGroups web/ldap service ##
+    penngroups:
+        username:       "kerberos principle"
+        credential:     "%kernel.root_dir%/config/keys/penngroups/encrypted.txt"
+        key:            "%kernel.root_dir%/config/keys/penngroups/private.pem"
+        cache_timeout:  600        

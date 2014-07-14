@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c389e88396604d7166fa0ee518b08812",
+    "hash": "40d4a1c09cb46261b0e56e275ceeba99",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1050,6 +1050,54 @@
             "time": "2014-06-04 15:20:43"
         },
         {
+            "name": "sas-irad/penngroups-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sas-irad/penngroups-bundle.git",
+                "reference": "0721a148c9109f5ded5b1b358799e002c0d4b667"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sas-irad/penngroups-bundle/zipball/0721a148c9109f5ded5b1b358799e002c0d4b667",
+                "reference": "0721a148c9109f5ded5b1b358799e002c0d4b667",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SAS\\IRAD\\PennGroupsBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Mansfield",
+                    "email": "robertom@sas.upenn.edu"
+                }
+            ],
+            "description": "Perform penngroups lookups via LDAP/WebService",
+            "homepage": "http://www.sas.upenn.edu",
+            "keywords": [
+                "irad",
+                "ldap",
+                "penn_id",
+                "penngroups",
+                "pennkey",
+                "symfony"
+            ],
+            "support": {
+                "source": "https://github.com/sas-irad/penngroups-bundle/tree/master",
+                "issues": "https://github.com/sas-irad/penngroups-bundle/issues"
+            },
+            "time": "2014-07-10 15:27:23"
+        },
+        {
             "name": "sensio/distribution-bundle",
             "version": "v2.3.4",
             "target-dir": "Sensio/Bundle/DistributionBundle",
@@ -1718,7 +1766,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "google/google-api-php-client": 10
+        "google/google-api-php-client": 10,
+        "sas-irad/penngroups-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"
