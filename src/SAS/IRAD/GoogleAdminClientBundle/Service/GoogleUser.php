@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle\Service;
+namespace SAS\IRAD\GoogleAdminClientBundle\Service;
 
 use Google_Auth_Exception;
 use Google_Service_Directory_User_Resource;
@@ -24,6 +24,11 @@ class GoogleUser {
         $this->logger     = $logger;
     }
     
+    /**
+     * Set the first/last name on a Google account
+     * @param array $name array("first_name" => $first, "last_name" => $last)
+     * @throws \Exception
+     */
     public function setName($name) {
         
         if ( !is_array($name) ) {
@@ -34,6 +39,7 @@ class GoogleUser {
             throw new \Exception("Invalid array passed to GoogleUser::setName()");
         }
         
+        // are we really changing anything?
         if ( $name['first_name'] != $this->getFirstName() || $name['last_name'] != $this->getLastName() ) {
 
             $this->user->getName()->setGivenName($name['first_name']);
@@ -43,6 +49,23 @@ class GoogleUser {
             $this->logger->log($this->personInfo, 'UPDATE', 'GMail account first/last name updated.');
         }
     }
+    
+    /**
+     * Set the password on a Google account
+     * @param string $password
+     * @throws \Exception
+     */
+    public function setPassword($password) {
+        
+        if ( !$password ) {
+            throw new \Exception("GoogleUser::setPassword requires parameter for input");
+        }
+        
+        $this->user->setPassword($password);
+        $this->admin->updateGoogleUser($this);
+        $this->logger->log($this->personInfo, 'UPDATE', 'GMail password reset.');
+    }
+    
     
     public function getFullName() {
         return $this->user->getName()->getFullName();

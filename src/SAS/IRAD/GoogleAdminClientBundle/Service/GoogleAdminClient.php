@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle\Service;
+namespace SAS\IRAD\GoogleAdminClientBundle\Service;
 
 use Google_Auth_Exception;
 use Google_Service_Exception;

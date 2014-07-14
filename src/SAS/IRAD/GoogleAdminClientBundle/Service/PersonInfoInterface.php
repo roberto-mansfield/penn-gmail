@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle\Service;
+namespace SAS\IRAD\GoogleAdminClientBundle\Service;
 
 
 interface PersonInfoInterface {

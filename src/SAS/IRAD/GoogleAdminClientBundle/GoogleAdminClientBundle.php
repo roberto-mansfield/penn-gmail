@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle;
+namespace SAS\IRAD\GoogleAdminClientBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

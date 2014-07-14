@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle\Command;
+namespace SAS\IRAD\GoogleAdminClientBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Penn\GoogleAdminClientBundle\Service\PersonInfo;
+use SAS\IRAD\GoogleAdminClientBundle\Service\PersonInfo;
 
 class GoogleDeleteAccountCommand extends ContainerAwareCommand {
     

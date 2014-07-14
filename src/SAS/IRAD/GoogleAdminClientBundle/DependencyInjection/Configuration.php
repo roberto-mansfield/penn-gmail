@@ -1,6 +1,6 @@
 <?php
 
-namespace Penn\GoogleAdminClientBundle\DependencyInjection;
+namespace SAS\IRAD\GoogleAdminClientBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
