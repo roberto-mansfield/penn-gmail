@@ -16,7 +16,6 @@
 	var LOWER = /[a-z]/,
 		UPPER = /[A-Z]/,
 		DIGIT = /[0-9]/,
-		DIGITS = /[0-9].*[0-9]/,
 		SPECIAL = /[^a-zA-Z0-9]/,
 		SAME = /^(.)\1+$/;
 		
@@ -44,13 +43,22 @@
 		var lower = LOWER.test(password),
 			upper = UPPER.test(uncapitalize(password)),
 			digit = DIGIT.test(password),
-			digits = DIGITS.test(password),
 			special = SPECIAL.test(password);
 		
-		if (lower && upper && digit || lower && digits || upper && digits || special)
+		if ( lower && upper && digit ||
+				lower && upper && special ||
+				lower && digit && special || 
+				upper && digit && special )
 			return rating(4, "strong");
-		if (lower && upper || lower && digit || upper && digit)
+		
+		if ( lower && upper || 
+				lower && digit || 
+				upper && digit ||
+				lower && special ||
+				upper && special ||
+				digit && special )
 			return rating(3, "good");
+		
 		return rating(2, "weak");
 	}
 	
