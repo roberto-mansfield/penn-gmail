@@ -34,6 +34,11 @@ class DefaultController extends Controller {
             return $this->redirect($this->generateUrl("gmailAccountDoesNotExist"));
         }
         
+        if ( !$user ) {
+            // account hasn't been provisioned yet
+            return $this->redirect($this->generateUrl("gmailAccountDoesNotExist"));
+        }
+        
         // when was the account created (force 24hr delay before user can access acount
         if ( $user->isAccountPending() ) {
             // redir to "wait" message
@@ -101,19 +106,104 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function gmailAccountPendingAction() {
-        
+
+        $service = $this->get('penngroups.query_cache');
         $gmail   = $this->get('google_admin_client');
-        $pennkey = $this->getUser()->getUsername();
-        $user    = $gmail->getGoogleUser($pennkey);
+        
+        $pennkey    = $this->getUser()->getUsername();
+        $personInfo = $service->findByPennkey($pennkey);
+
+        $user = $gmail->getGoogleUser($personInfo);
+        
         
         if ( !$user->isAccountPending() ) {
             return $this->redirect($this->generateUrl("gmailIndex"));
         }
         
-        $pending = $user->getCreationTime() + 86400 - time();
+        // Google client set default timezone to UTC, reset here for correct output to user
+        date_default_timezone_set('America/New_York');
+        $pending = $user->getCreationTime() + 86400;
         
         return array('pending' => $pending);
     }
+
+
+    /**
+     * @Route("/ajax/activate-account", name="activateAccount")
+     */
+    public function activateAccountAction() {
+    
+        $service = $this->get('penngroups.query_cache');
+        $gmail   = $this->get('google_admin_client');
+    
+        $pennkey    = $this->getUser()->getUsername();
+        $personInfo = $service->findByPennkey($pennkey);
+    
+        // does the account exist?
+        try {
+            $user = $gmail->getGoogleUser($personInfo);
+    
+        } catch (\Exception $e ) {
+            // account hasn't been provisioned yet
+            return $this->jsonError("Invalid account");
+        }
+    
+        if ( !$user ) {
+            // account hasn't been provisioned yet
+            return $this->jsonError("Invalid account");
+        }
+    
+        // when was the account created (force 24hr delay before user can access acount
+        if ( $user->isAccountPending() ) {
+            return $this->jsonError("Account is pending");
+        }
+    
+        // is the account initialized?
+        if ( $user->isActivated() ) {
+            return $this->jsonError("Account already setup");
+        }
+    
+        $request = $this->getRequest();
+    
+        if ( $request->getMethod() != 'POST') {
+            return $this->jsonError("Invalid method");
+        }
+    
+        $accountForm = $this->createForm(new AccountFormType());
+        $accountForm->handleRequest($request);
+        $params = $request->request->get("AccountForm");
+    
+        if ( !$accountForm->isValid() ) {
+            return $this->jsonError("Invalid form");
+        }
+    
+        try {
+            $user->activateAccount($params['password1']);
+        } catch (\Exception $e) {
+            return $this->jsonError("An error occurred while provisioning your Google account");
+        }
+        
+        if ( $params['mail_forwarding'] == 'YES' ) {
+            
+            $forwarding   = $this->get('mail_forwarding_service');
+            $googleParams = $this->container->getParameter('google_params');
+            
+            try {
+                $address = implode('@', array($pennkey, $googleParams['relay_domain']));
+                $forwarding->setForwarding($personInfo, $user->getUserId(), $address);
+            } catch (\Exception $e) {
+                return $this->jsonError("An error occurred while setting up your mail forwarding");
+            }
+        }
+        
+        return $this->json(array("result"  => "OK",
+                "message" => "Account activated",
+                "content" => $this->renderView("GMailConfigureBundle:Default:activateAccountSuccess.html.twig",
+                        array("userId"         => $user->getUserId(),
+                              "mailForwarding" => true))
+        ));
+    }    
+    
     
     
     /**
@@ -132,6 +222,11 @@ class DefaultController extends Controller {
             $user = $gmail->getGoogleUser($personInfo);
         
         } catch (\Exception $e ) {
+            // account hasn't been provisioned yet
+            return $this->jsonError("Invalid account");
+        }
+        
+        if ( !$user ) {
             // account hasn't been provisioned yet
             return $this->jsonError("Invalid account");
         }
@@ -160,7 +255,11 @@ class DefaultController extends Controller {
             return $this->jsonError("Invalid form");
         }
         
-        $user->setPassword($params['password1']);
+        try {
+            $user->setPassword($params['password1']);
+        } catch (\Exception $e) {
+            return $this->jsonError("An error occurred while attempting to reset your password");
+        }
         
         return $this->json(array("result"  => "OK", 
                                  "message" => "Password reset complete",

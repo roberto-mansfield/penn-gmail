@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             new SAS\IRAD\CosignSSOBundle\CosignSSOBundle(),
+            new SAS\IRAD\FileStorageBundle\FileStorageBundle(),
             new SAS\IRAD\GmailAccountLogBundle\GmailAccountLogBundle(),
             new SAS\IRAD\GmailOAuth2TokenBundle\GmailOAuth2TokenBundle(),
 
@@ -25,6 +26,7 @@ class AppKernel extends Kernel
             new SAS\IRAD\GoogleAdminClientBundle\GoogleAdminClientBundle(),
             new SAS\IRAD\PennGroupsBundle\PennGroupsBundle(),
             new SAS\IRAD\GMailConfigureBundle\GMailConfigureBundle(),
+            new SAS\IRAD\MailForwardingBundle\MailForwardingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

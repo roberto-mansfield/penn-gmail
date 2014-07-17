@@ -33,6 +33,13 @@ class AccountFormType extends AbstractType {
             array('attr' => 
                     array('class'       => 'passwordField password2',
                           'maxlength'   => '40' )));
+        
+        $builder->add('mail_forwarding', 'checkbox',
+            array('required' => false,
+                  'attr' =>
+                    array('class'    => 'mail-forwarding',
+                          'checked'  => 'checked',
+                          'value'    => 'YES' )));
     }
     
     public function getName() {

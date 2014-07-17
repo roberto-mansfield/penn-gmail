@@ -66,6 +66,29 @@ class GoogleUser {
         $this->logger->log($this->personInfo, 'UPDATE', 'GMail password reset.');
     }
     
+    /**
+     * Set org unit on google account
+     * @param string $org_unit
+     */
+    public function setOrgUnit($org_unit) {
+        $this->user->setOrgUnitPath("/$org_unit");
+        $this->admin->updateGoogleUser($this);
+        $this->logger->log($this->personInfo, 'UPDATE', "GMail account moved to OU=$org_unit.");
+    }
+    
+    /**
+     * Activate a Google account: set the password and move to "activated-accounts" OU
+     * @param string $password
+     */
+    public function activateAccount($password) {
+
+        if ( !$password ) {
+            throw new \Exception("GoogleUser::activateAccount requires parameter for input");
+        }
+        
+        $this->setPassword($password);
+        $this->setOrgUnit('activated-accounts');
+   }
     
     public function getFullName() {
         return $this->user->getName()->getFullName();
@@ -91,8 +114,12 @@ class GoogleUser {
         return $this->personInfo;
     }
     
+    /**
+     * Retrieve the account creation time from the Google directory user object
+     * -- returned as string -- and convert to unix timestamp
+     */
     public function getCreationTime() {
-        return $this->user->getCreationTime();
+        return strtotime($this->user->getCreationTime());
     }
     
     public function getOrgUnitPath() {
@@ -100,8 +127,7 @@ class GoogleUser {
     }
 
     public function isAccountPending() {
-        $created_at = strtotime($this->user->getCreationTime());
-        return ( time() - $created_at < 86400 );
+        return ( time() - $this->getCreationTime() < 86400 );
     }
 
     public function isPennIdHash() {

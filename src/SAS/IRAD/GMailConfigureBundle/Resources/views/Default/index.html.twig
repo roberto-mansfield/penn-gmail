@@ -16,36 +16,36 @@
 {% block body %}
     
     {% if action == 'reset-password' %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"instructions", "visible":true} %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"reset-password", "visible": false} %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"login", "visible":false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"1", "visible":true} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"2", "visible":false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"reset-password", "step":"3", "visible":false} %}
     {% else %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"instructions", "visible":true} %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"create", "visible": false} %}
-        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"login", "visible":false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"1", "visible":true} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"2", "visible":false} %}
+        {% include "GMailConfigureBundle:Default:account-steps.html.twig" with {"action":"create-account", "step":"3", "visible":false} %}
     {% endif %}
 
     <div id="content">
-        {% if action == 'reset-password' %}    
-            <p>Here are the instructions for resetting your Google@SAS account password:</p>
-            <ul>
-                <li>Enter a new password for your account.</li>
-            </ul>
-            {% set buttonId = "resetPasswordButton" %}
-            {% set formUrl  = path("resetPassword") %}
-    
-        {% else %}
-            <p>Here are the instructions for creating your Google@SAS account:</p>
-            <ol>
-                <li>Create a password for your new account.</li>
-                <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
-                    If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
-                <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
-                <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
-            </ol>
-            {% set buttonId = "createAccountButton" %}
-            {% set formUrl  = path("resetPassword") %}
-        {% endif %}
+        <div class="user-text">
+            {% if action == 'reset-password' %}    
+                <p>Here are the instructions for resetting your Google@SAS account password:</p>
+                <ul>
+                    <li>Enter a new password for your account.</li>
+                </ul>
+                {% set formUrl  = path("resetPassword") %}
+        
+            {% else %}
+                <p>Here are the instructions for creating your Google@SAS account:</p>
+                <ol>
+                    <li>Create a password for your new account.</li>
+                    <li>Use the checkbox below to indicate if you want to use Google@SAS for both email and apps (Google Docs, Calendar, etc), or just for apps.<br/><br/>
+                        If you want to use Google@SAS for apps only and not email, then uncheck the "Deliver email to this account" box.</li>
+                    <li>The first time you login to your Google@SAS account, you will be prompted to accept the terms of service for your account.</li>
+                    <li>Please be sure to complete all the steps in this process so that you will be able to access your Google@SAS account.</li>
+                </ol>
+                {% set formUrl  = path("activateAccount") %}
+            {% endif %}
+        </div>
     
         <form method="POST" action="{{ formUrl }}" id="account-form">
         
@@ -107,7 +107,7 @@
                     <label for="mail_forwarding"><br/></label> 
                 </div>
                 <div class="field-input">
-                    <input type="checkbox" name="mail_forwarding" id="mail_forwarding" value="yes" checked="checked" onChange="forwardingAlert()"/> Deliver email to this account
+                    {{ form_widget(accountForm.mail_forwarding) }} Deliver email to this account
                 </div>
                 <div style="clear: both;"></div>
             </div>
@@ -123,13 +123,13 @@
                 <br/>
             </div>
             <div class="field-input">
-                <input type="button" name="button" value="Continue" id="{{ buttonId }}" />
+                <button type="button" id="continueButton" >Continue</button>
             </div>
             <div style="clear: both;"></div>
         </div>
         
         </form>
     </div>
-
+    <img id="loader-img" src="{{ asset("bundles/assets/img/ajax-loader.gif") }}" height="8px" style="display: none" />
 {% endblock %}
 

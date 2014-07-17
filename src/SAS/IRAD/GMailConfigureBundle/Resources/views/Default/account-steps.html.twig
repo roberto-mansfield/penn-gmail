@@ -1,26 +1,26 @@
 <div id="step-{{ step }}" {% if not visible %}style="display: none"{% endif %} class="steps">
     <nobr>
-    {% if step == 'instructions' %}
+    {% if step == '1' %}
         <img src="{{ asset('bundles/assets/img/current_step/instructions.png') }}">
     {% else %}
         <img src="{{ asset('bundles/assets/img/step/instructions.png') }}">
     {% endif %}
     <img src="{{ asset('bundles/assets/img/dots.png') }}">
     {% if action == 'create-account' %}
-        {% if step == 'create' %}
+        {% if step == '2' %}
             <img src="{{ asset('bundles/assets/img/current_step/create.png') }}">
         {% else %}
             <img src="{{ asset('bundles/assets/img/step/create.png') }}">
         {% endif %}
     {% else %}    
-        {% if step == 'reset-password' %}
+        {% if step == '2' %}
             <img src="{{ asset('bundles/assets/img/current_step/reset_password.png') }}">
         {% else %}
             <img src="{{ asset('bundles/assets/img/step/reset_password.png') }}">
         {% endif %}
     {% endif %}
     <img src="{{ asset('bundles/assets/img/dots.png') }}">
-    {% if step == 'login' %}
+    {% if step == '3' %}
         <img src="{{ asset('bundles/assets/img/current_step/login-to-account.png') }}">
     {% else %}
         <img src="{{ asset('bundles/assets/img/step/login-to-account.png') }}">

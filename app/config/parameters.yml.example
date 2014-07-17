@@ -43,4 +43,8 @@ parameters:
         username:       "kerberos principle"
         credential:     "%kernel.root_dir%/config/keys/penngroups/encrypted.txt"
         key:            "%kernel.root_dir%/config/keys/penngroups/private.pem"
-        cache_timeout:  600        
+        cache_timeout:  600
+        
+    ## define parameters for mail forwarding ##
+    mail_forwarding:
+        path:           /www/apps/dev/forwards/var/data     ## file with forwarding data   

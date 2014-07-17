@@ -166,3 +166,7 @@ h3.logEntries {
     color: black;
     font-size: 10pt;
 }
+
+div.user-text {
+	width: 600px;
+}

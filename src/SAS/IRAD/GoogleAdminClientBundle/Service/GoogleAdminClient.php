@@ -303,7 +303,7 @@ class GoogleAdminClient {
         } catch (Google_Service_Exception $e) {
             $this->logger->log($user->getPersonInfo(), 'ERROR', $e->getMessage());
             error_log($e->getMessage());
-            throw new Google_Service_Exception($e->getMessage(), $e->getCode());
+            throw $e;
         }
     }
     

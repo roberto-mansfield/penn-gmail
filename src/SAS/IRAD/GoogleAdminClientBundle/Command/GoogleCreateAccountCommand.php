@@ -23,7 +23,7 @@ class GoogleCreateAccountCommand extends ContainerAwareCommand {
             ->addOption('last-name',  null, InputOption::VALUE_REQUIRED, "The user's last name")
             ;
         
-        $this->setHelp("Create a Google account with the specified parameters. If a person_info_service\n"  .
+        $this->setHelp("Create a Google account with the specified parameters. If the penngroups.web_service_query\n"  .
                        "is defined, then only the penn_id or pennkey is required. The other parameters\n"   .
                        "will be queried from the service. If it is NOT defined, then penn_id, first-name\n" .
                        "and last-name are required.");
@@ -76,9 +76,9 @@ class GoogleCreateAccountCommand extends ContainerAwareCommand {
             throw new \Exception("The pennkey parameter \"$pennkey\" is incorrect.");
         }
             
-        // do we have a person_info_service we can use for lookups?
+        // do we have a penngroups service we can use for lookups?
         try {
-            $service = $this->getContainer()->get('person_info_service');
+            $service = $this->getContainer()->get('penngroups.web_service_query');
         } catch (ServiceNotFoundException $e) {
             $service = false;
         }
@@ -95,7 +95,7 @@ class GoogleCreateAccountCommand extends ContainerAwareCommand {
                 $options = compact('penn_id', 'pennkey', 'first_name', 'last_name');
                 return new PersonInfo($options);
             } else {
-                throw new \Exception("Parameters penn-id, first-name and last-name are required when person_info_service is not defined.");
+                throw new \Exception("Parameters penn-id, first-name and last-name are required when penngroups.web_service_query is not defined.");
             }
         }
 
@@ -105,9 +105,9 @@ class GoogleCreateAccountCommand extends ContainerAwareCommand {
         }
         
         if ( $penn_id ) {
-            $personInfo = $service->searchByPennId($penn_id);
+            $personInfo = $service->findByPennId($penn_id);
         } else {
-            $personInfo = $service->searchByPennkey($pennkey);
+            $personInfo = $service->findByPennkey($pennkey);
         }
         
         if ( !$personInfo ) {
