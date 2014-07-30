@@ -50,12 +50,17 @@ class DefaultController extends Controller {
             // account alread active
             $action = 'reset-password';
         } else {
+            // is account creation currently available?
+            if ( !$gmail->isAccountCreationAvailable() ) {
+                return $this->forward("GMailConfigureBundle:Default:gmailAccountCreationDisabled");
+            }
             $action = 'create-account';
         }
         
         $accountForm = $this->createForm(new AccountFormType());
         
-        return array('user'        => $user,
+        return array('gmail'       => $gmail,
+                     'user'        => $user,
                      'action'      => $action,
                      'accountForm' => $accountForm->createView());
     }
@@ -115,19 +120,23 @@ class DefaultController extends Controller {
 
         $user = $gmail->getGoogleUser($personInfo);
         
-        
         if ( !$user->isAccountPending() ) {
             return $this->redirect($this->generateUrl("gmailIndex"));
         }
         
-        // Google client set default timezone to UTC, reset here for correct output to user
-        date_default_timezone_set('America/New_York');
-        $pending = $user->getCreationTime() + 86400;
-        
-        return array('pending' => $pending);
+        return array('user' => $user);
     }
 
 
+    /**
+     * @Route("/account-creation-disabled", name="gmailAccountCreationDisabled")
+     * @Template()
+     */
+    public function gmailAccountCreationDisabledAction() {
+        return array();
+    }    
+    
+    
     /**
      * @Route("/ajax/activate-account", name="activateAccount")
      */

@@ -1,0 +1,14 @@
+{% extends "AssetsBundle::base.html.twig" %}
+
+{% block page_title %}SAS: Mail Options{% endblock %}
+{% block page_header %}Configure Email Delivery Options{% endblock %}
+
+{% block school_logo %}
+<a href="http://www.sas.upenn.edu/"><img src="{{ asset('bundles/assets/img/sas_logo_white.jpg') }}" width=175 height=55 border="0" alt="School of Arts and Sciences Home Page" /></a>
+{% endblock %}
+
+{% block nav_links %}
+<li class='navbar'><a class='navbar' href="{{ path("forwardingIndex") }}">Email Options</a></li>
+<li class='navbar'><a class='navbar' href="{{ path("help") }}">Help FAQ</a></li>
+<li class='navbar'><a class='navbar' href="https://weblogin.pennkey.upenn.edu/logout">Logout</a></li>
+{% endblock %}

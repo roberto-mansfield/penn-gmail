@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>{% block page_title %}PAGE TITLE{% endblock %}</title>
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/assets/css/global.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/assets/css/local.css') }}" />
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ asset('bundles/assets/img/favicon.ico') }}" type="image/x-icon" />
+    {% block javascript %}
+        <script src="{{ asset('bundles/assets/js/jquery.min.js') }}"></script>
+    {% endblock %}
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#011F5B" vlink="#6E88B9" alink="#990000" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
+<!-- main layout table -->
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr valign=top>
+   <td bgcolor="#011F5B" width="209">
+       <!-- left column: navigation and branding -->
+       <div style="width: 209px">
+        
+            <div style="padding-left: 17px">
+             {% block school_logo %}
+             {% endblock %}
+             <br />
+             <img src="{{ asset('bundles/assets/img/hr.gif') }}" width="175" height="34" border="0" alt="" /><br />
+             
+             <!-- main menu -->
+             {% block nav_links %}
+             {% endblock %}
+            </div>
+       </div>
+   </td>
+
+   <td>
+
+       <!-- top toolbar: home, search, etc. -->
+       <div style="background: #7794C9; height: 17px;"></div>
+       
+        <div style="width: 800px; padding: 30px;">
+        <h3 style="font-family: verdana">{% block page_header %}PAGE HEADER{% endblock %}</h3>
+
+        <div id="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+        
+      <!-- end page content -->
+      </div>
+
+      <!-- bottom toolbar: home, search, etc. -->
+      <div style="background: #7794C9; height: 17px;"></div>
+    
+      <!-- footer -->
+      <div style="margin-top: 20px; margin-bottom: 20px; margin-left: 20px">
+        <small>
+            Copyright &copy; {{ "now"|date("Y") }}, University of Pennsylvania<br />
+            <a href="http://www.upenn.edu/computing/security/copyright.html">Copyright Information</a> | 
+            <a href="http://www.upenn.edu/privacy/">Privacy Policy</a> | 
+            <a href="http://www.upenn.edu/about/disclaimer.php">Disclaimer</a></small></td> 
+        </small>
+      </div>
+
+   </td>
+</tr>
+</table>
+</body>
+
+</html>
+

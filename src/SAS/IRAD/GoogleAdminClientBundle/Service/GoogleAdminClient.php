@@ -374,4 +374,18 @@ class GoogleAdminClient {
         // log success message
         $this->logger->log($user->getPersonInfo(), 'CREATE', "GMail account deleted.");        
     }
+    
+    
+    /**
+     * Return true if account_creation parameter is set to on/yes/true
+     * @return boolean
+     */
+    public function isAccountCreationAvailable() {
+        $param = $this->google_params['account_creation'];
+        if ( is_bool($param) ) {
+            return $param;
+        }
+        return in_array(strtolower($param), array('on', 'yes'));
+    }
+        
 }

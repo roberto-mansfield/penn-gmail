@@ -1,0 +1,150 @@
+{% extends "MailForwardingBundle::base.html.twig" %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset("bundles/mailforwarding/js/forwarding.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div  class="body-content" style="width: 600px;">
+        <p class="body">Your Penn email address {% if forwards %}is{% else %}will be{% endif %}:
+        <strong>{{ email }}</strong>
+        </p>
+        
+    	{# info for new accounts/forwards #}
+    	{% if not forwards %}
+    	    <p class="body">You need to register where mail to this address will be delivered.  Once 
+    	    you've completed this step, the address <strong>{{ email }}</strong> 
+    		will be activated as your official Penn email address.  This is the
+    		address which faculty, administrators, and others at Penn will use to communicate
+    		with you.</p>
+    	{% endif %}
+    	
+        {% if googleUser %}
+    
+            <p>You have two choices for how your mail can be delivered:</p>
+            
+                <div style="padding-left: 25px; padding-right: 25px;">
+                    <p><strong>1) Use Google@SAS.</strong>  Google@SAS is a suite of email and collaboration tools customized specially for 
+                    Penn students.  It is based on the popular GMail and Google Apps services.  
+                    <a href="https://www.sas.upenn.edu/computing/google@sas">[get more information about Google@SAS]</a></p>
+                    
+                    <p><strong>2) Set a Forwarding Address.</strong>  Have your SAS email delivered to an account of your choosing.</p> 
+                </div>
+    
+            <p><strong>You can change your selection at any time by returning to this page.</strong></p>
+                
+        {% else %}
+            
+            <p>Please provide the address for an existing email account. All messages sent to your SAS email address will be forwarded to this 
+            account. <strong>You can change your forwarding address at any time by returning to this page.</strong></p> 
+            
+        {% endif %}
+        </p>
+    
+        <p class="body">It  will take up to 20 minutes for the address to begin forwarding mail to your selected 
+        option. After 20 minutes you should test to make sure that the address is working properly by sending mail 
+        to yourself at: <strong>{{ email }}</strong></p>
+        
+        <p><strong>Mail delivery options:</strong></p>
+    
+        <table cellpadding="5" cellspacing="0" width="500">
+            <tr>
+              <td align="right"><nobr>SAS address:</nobr></td>
+              <td width="400" class="shaded"><strong>{{ email }}</strong></td>
+            </tr>
+
+            <tr>
+    		  <td align="right" valign="top" style="padding-top: 55px"><nobr>Options:</nobr></td>
+    		  <td class="shaded">
+    
+    		      <FORM id="edit-forwarding" data-forwarding-type="{{ forwardingType }}" data-equivalent-domains="{{ equivDomains|json_encode }}">
+            	
+    		      <input type="hidden" name="command" value="edit_forwarding">
+    		      <input type="hidden" name="websec_token" value="<?php echo $cosign->token; ?>">
+    	
+                  {% if googleUser %}
+                  
+                      {% if googleUser.isActivated %}
+    
+                          {# account exists and has been activated by the student #}
+                          <div class="field-label-set">
+                              <input type="radio" name="forward_type" value="gmail"/>
+                              <span class="radio-label">Deliver mail to my Google@SAS account</span><br/>
+                              <a href="{{ path("gmailIndex") }}" class="forgot_password">(Forgot your Google@SAS password?)</a>
+                          </div>
+                      
+                      {% else %}
+                          {# account creation may be disabled in config #}
+                          {% if gmail.isAccountCreationAvailable %}
+                              {% if googleUser.isAccountPending %}
+                                  {# acount exists and is pending 24hr wait before user may activate #}
+                                  <div class="field-label-set">
+                                      <input type="radio" name="forward_type" value="gmail_not_ready" disabled="disabled"/> 
+                                      <span class="radio-label" style="color: gray;">Activate my Google@SAS account</span><br/>
+                                      <a href="" class="forgot_password">(Account is pending. Ready in {{ googleUser.accountAvailableWhen }})</a>
+                                  </div>
+                              
+                              {% else %}
+                                  {# account exists, is not yet active and is ready for mail routing. there
+                                   # are times when we want to disable new account creation so check additional
+                                   # param before showing option to setup account 
+                                   #}
+                                  <div class="field-label-set">
+                                      <input type="radio" name="forward_type" value="create_gmail" onclick="window.location='{{ path("gmailIndex") }}'" />
+                                      <span class="radio-label"><a href="{{ path("gmailIndex") }}">Activate my Google@SAS account</a></span>
+                                  </div>
+                              {% endif %}
+                          {% endif %}
+                      {% endif %}
+                  {% endif %}
+                  
+                  {% if forwardingType == 'pennlive' %}
+                      {# if the user is forwarding to a legacy penn live account, display that option #}
+                      <div class="field-label-set">
+                          <input type="radio" name="forward_type" value="pennlive" /> 
+                          <span class="radio-label">Deliver mail to my Penn Live account</span>
+                      </div>
+                  {% endif %}
+    
+    		      <div class="field-label-set">
+    		          <input type="radio" name="forward_type" value="other" /> 
+    		          <span class="radio-label">Deliver mail to the following address<span id="address_text" style="display: none">es</span>:</span>
+		          </div>
+		          
+    		      {% for index in 0..maxForwards-1 %}
+    		          <div id="forwardingAddress{{ index }}" class="email_field" style="{% if index > 0 %}display: none{% endif %}">
+    		              <input type="text" size="30" maxlength="120" name="forwarding_address[{{ index }}]" value="{% if forwardingType == 'other' and forwards[index] is defined %}{{ forwards[index] }}{% endif %}" class="email" />
+    		          </div>
+    		          {% if index == 0 %}<span id="more_link"><a class="forgot_password">[ more ]</a></span>{% endif %}
+    		      {% endfor %}
+		          
+		          </FORM>    		      
+    		      
+		          <div style="display: none">
+    		      <form action="{{ path("updateForwarding") }}" method="post" id="update-forwarding"> 
+    		      {{ form_widget(form) }}
+    		      </form>
+		          </div>
+		          
+    		  </td>
+    		</tr>
+    	
+    		<tr>
+    		  <td>&nbsp;</td>
+    		  <td align="center">
+    		      <button type="button" id="update-forwarding-button">Update mail delivery options</button> 
+    		  </td>
+    		</tr>
+
+		</table>
+
+        
+        <p class="tip" ><strong>TIP:</strong> Please be sure to use an address that you know will be valid for
+        at least one year (for example: do not use your old high school email address).</p>
+
+    </div>
+    <img id="loader-img" src="{{ asset("bundles/assets/img/ajax-loader.gif") }}" height="8px" style="display: none" />
+    
+{% endblock %}

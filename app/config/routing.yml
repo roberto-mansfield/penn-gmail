@@ -3,6 +3,11 @@ gmail_configure:
     type:     annotation
     prefix:   /gmail
 
+mail_forwarding:
+    resource: "@MailForwardingBundle/Controller/"
+    type:     annotation
+    prefix:   /forward
+
 account_log:
     resource: "@GmailAccountLogBundle/Controller/"
     type:     annotation

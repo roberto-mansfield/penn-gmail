@@ -1,0 +1,32 @@
+<div class="user-text">
+    <p class="alert">Please Note:</p>
+    
+    {% if mailForwarding %}
+    
+        <ul>
+            <li>You can now use your account to access any of the Google@SAS services.</li>
+            <li>After successfully logging in for the first time, you will be prompted to accept the Google Terms of Service. You must agree to 
+            these terms to use your new account.</li>
+        </ul>
+        
+        <p>It will take up to 20 minutes before you can start receiving mail at your new Google@SAS account. After 20 minutes you should test to make 
+        sure that the address is working properly by sending mail to: <strong>{{ userId }}</strong> <em>from another account</em>.</p>
+        
+    {% else %}
+    
+        <ul>
+            <li>You can now use your Google@SAS account. You have elected NOT to have your mail delivered to this account, but you will have access to all 
+            the other Google@SAS services (docs, calendar, etc.)</li>
+            <li>After successfully logging in for the first time, you will be prompted to accept the Google Terms of Service. You must agree to these terms 
+            to use your new account.</li>
+        </ul>
+    
+    {% endif %}
+    
+    
+    <p>When you are ready to login to Google@SAS, click below.</p>
+    
+    <form method="post" action="https://www.google.com/accounts/ServiceLogin?service=mail&Email={{ userId }}&continue=https://mail.google.com/mail/">
+    <input type="submit" value="Login to Google@SAS"/>
+    </form>
+</div>

@@ -1,0 +1,77 @@
+{% extends "MailForwardingBundle::base.html.twig" %}
+
+{% block body %}
+
+  <H2>Help FAQ</h2>
+  <hr>
+
+    <strong>Q:  I've tried to register or change my forwarding address, but
+    got an error message.  What should I do?<br/>
+    
+    A: </strong>There are unusual conditions which can cause the forwarding
+    configuration process to fail.  Please report these errors by using the
+    the link below.</p>
+    </p>
+    <li class="link"><a target="_blank" href="http://www.sas.upenn.edu/computing/forms/regerror.html">Report mail configuration errors</a></li>
+    
+    
+    <p>
+    <strong>Q:  I think I registered my forwarding address but when I send
+    email to {{ email }}, I don't receive it at my forwarding address. 
+    <br/>
+    A1:  </strong>There may be up to a 20 minute delay before your newly specified
+    forwarding address is activated.
+    <p>
+    <strong>A2:</strong>   In order to prevent mail loops, some email providers do not
+    deliver messages sent to an address which forwards mail back to the
+    original sender. You should, therefore, test your forwarding by
+    sending a test message from a different email account, or have a
+    friend send a test message to your new Penn email address.
+    <p>
+    If you have already waited 20 minutes and can't receive test messages
+    sent by other accounts, please report this problem by using the
+    the link below.</p>
+    </p>
+    <li class="link"><a target="_blank" href="http://www.sas.upenn.edu/computing/forms/regerror.html">Report mail configuration errors</a></li>
+    
+    
+    <p>
+    <strong>Q:  I don't have any other email address that I can use for forwarding.
+    How can I get one? 
+    <br/>
+    A:  </strong>There are several good, free email services available to the public.
+    Popular choices include:<p>
+    <table style="padding-left: 30px">
+    <tr>
+      <td width="75px"><span style="text-decoration: underline"><em>Service</em></span></td>
+      <td><span style="text-decoration: underline"><em>Signup Link</em></span></td>
+    </tr>
+    <tr>
+      <td>Gmail</td>
+      <td><a target=_blank href=http://mail.google.com/mail/signup>http://mail.google.com/mail/signup</a></tr>
+    </tr>
+    <tr>
+      <td width="75px">Hotmail</td>
+      <td><a target=_blank href=http://login.live.com/login.srf?id=2>http://login.live.com/login.srf?id=2</a></td>
+    </tr>
+    <tr>
+      <td>Yahoo</td>
+      <td><a target=_blank href=http://yahoo.com/r/m7>http://yahoo.com/r/m7</a></td>
+    </tr>
+    </table>
+    <p>
+    Sign up for an account with any of these services, then return here to
+    complete the registration process. </p>
+    
+    <p>
+    <strong>Q:  What is Google@SAS? 
+    <br/>A:  </strong>Google@SAS is a special version of GMail and Google Apps customized specially for Penn students.  All 
+    SAS students will be eligible to sign up for Google@SAS starting in the summer of 2012.</p>
+    
+    <li class="link"><a target=_blank href="http://www.sas.upenn.edu/computing/google@sas">See more details about Google@SAS</a></li>
+    <p>
+    <form action="{{ path("forwardingIndex") }}" method="GET">
+    <input type="submit" value="Configure Mail Options">
+    </form>
+
+{% endblock %}

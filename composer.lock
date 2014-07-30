@@ -972,12 +972,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/file-storage-bundle.git",
-                "reference": "19abd9245ceff0cda48895ce674a99b864350f3c"
+                "reference": "c05bb07d2ece14cdfedc198b2301dc7202454a54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/file-storage-bundle/zipball/19abd9245ceff0cda48895ce674a99b864350f3c",
-                "reference": "19abd9245ceff0cda48895ce674a99b864350f3c",
+                "url": "https://api.github.com/repos/sas-irad/file-storage-bundle/zipball/c05bb07d2ece14cdfedc198b2301dc7202454a54",
+                "reference": "c05bb07d2ece14cdfedc198b2301dc7202454a54",
                 "shasum": ""
             },
             "require": {
@@ -1006,7 +1006,7 @@
                 "source": "https://github.com/sas-irad/file-storage-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/file-storage-bundle/issues"
             },
-            "time": "2014-07-17 21:17:16"
+            "time": "2014-07-30 21:35:42"
         },
         {
             "name": "sas-irad/gmail-account-log-bundle",

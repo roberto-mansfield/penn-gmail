@@ -86,6 +86,9 @@ class GoogleUser {
             throw new \Exception("GoogleUser::activateAccount requires parameter for input");
         }
         
+        if ( $this->isPennIdHash() ) {
+            // rename account using pennkey
+        }
         $this->setPassword($password);
         $this->setOrgUnit('activated-accounts');
    }
@@ -130,6 +133,53 @@ class GoogleUser {
         return ( time() - $this->getCreationTime() < 86400 );
     }
 
+    /**
+     * Return the number hours/minutes until this account is available
+     * @return string
+     */
+    public function getAccountAvailableWhen() {
+        
+        $creationTime = $this->getCreationTime();
+        
+        if ( !$creationTime ) {
+            return "Account Not Provisioned";
+        }
+        
+        $seconds = 86400 - (time() - $creationTime);
+        
+        if ( $seconds < 0 ) {
+            return "Account is Ready";
+        }
+        
+        $hours   = intval($seconds/3600);
+        $minutes = intval(($seconds%3600)/60); 
+        $when    = null;
+        
+        if ( !$hours ) {
+            $minutes = max(1, $minutes);
+        }
+        
+        if ( $hours ) {
+            $when = "$hours hour";
+            if ( $hours > 1 ) {
+                $when .= 's';
+            }
+        }
+        
+        if ( $hours && $minutes ) {
+            $when .= " and ";
+        }
+        
+        if ( $minutes ) {
+            $when .= " $minutes minute";
+            if ( $minutes > 1 ) {
+                $when .= 's';
+            }
+        }
+        
+        return $when;
+    }    
+    
     public function isPennIdHash() {
         $hashPennIdAccount = $this->admin->getUserId($this->admin->getPennIdHash($this->personInfo->getPennId()));
         return ( $this->user->getPrimaryEmail() == $hashPennIdAccount );

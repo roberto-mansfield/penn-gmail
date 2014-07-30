@@ -49,12 +49,12 @@ a.forgot_password {
 	font-size: 80%;
 	text-decoration: none;
 	white-space: nowrap;
+	cursor: pointer;
 }
 
 a.forgot_password:hover {
 	text-decoration: underline;
 }
-
 
 /* other styles */
 ol li {
@@ -169,4 +169,8 @@ h3.logEntries {
 
 div.user-text {
 	width: 600px;
+}
+
+span.radio-label {
+	cursor: pointer;
 }
