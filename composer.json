@@ -23,7 +23,7 @@
 		"incenteev/composer-parameter-handler" : "~2.0",
 		"google/google-api-php-client" : "1.0.4-beta",
 		"sas-irad/cosign-sso-bundle" : "0.2.1",
-		"sas-irad/gmail-account-log-bundle" : "0.1.0",
+		"sas-irad/gmail-account-log-bundle" : "dev-master",
 		"sas-irad/gmail-oauth2-token-bundle" : "dev-master",
 		"sas-irad/penngroups-bundle" : "dev-master",
 		"sas-irad/file-storage-bundle" : "dev-master"
@@ -56,9 +56,9 @@
 			"type" : "vcs",
 			"url" : "https://github.com/sas-irad/penngroups-bundle"
 		}, {
-            "type" : "vcs",
-            "url" : "https://github.com/sas-irad/file-storage-bundle"
-        }
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/file-storage-bundle"
+		}
 	],
 	"scripts" : {
 		"post-install-cmd" : [

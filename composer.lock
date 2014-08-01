@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4765459eaaf50d488e3aa87a5830f37a",
+    "hash": "d747f176a6b3550d5a0348428d767466",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1010,16 +1010,16 @@
         },
         {
             "name": "sas-irad/gmail-account-log-bundle",
-            "version": "v0.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/gmail-account-log-bundle.git",
-                "reference": "f75da46716d7f47b6e89e2db5641df6e04ea6af9"
+                "reference": "5e1e71630e0036d4de8366fd783f9f1055313cb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/f75da46716d7f47b6e89e2db5641df6e04ea6af9",
-                "reference": "f75da46716d7f47b6e89e2db5641df6e04ea6af9",
+                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/5e1e71630e0036d4de8366fd783f9f1055313cb1",
+                "reference": "5e1e71630e0036d4de8366fd783f9f1055313cb1",
                 "shasum": ""
             },
             "require": {
@@ -1048,7 +1048,7 @@
                 "source": "https://github.com/sas-irad/gmail-account-log-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/gmail-account-log-bundle/issues"
             },
-            "time": "2014-06-04 14:06:38"
+            "time": "2014-08-01 20:36:56"
         },
         {
             "name": "sas-irad/gmail-oauth2-token-bundle",
@@ -1810,6 +1810,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "google/google-api-php-client": 10,
+        "sas-irad/gmail-account-log-bundle": 20,
         "sas-irad/gmail-oauth2-token-bundle": 20,
         "sas-irad/penngroups-bundle": 20,
         "sas-irad/file-storage-bundle": 20
