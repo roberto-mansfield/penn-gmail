@@ -77,6 +77,22 @@ class GoogleUser {
     }
     
     /**
+     * Rename a google account that was created with a penn_id hash to new name based on pennkey
+     */
+    public function renameAccount() {
+        
+        $primaryEmail = $this->getLocalUserId();
+        
+        if ( !$primaryEmail ) {
+            throw new \Exception("Account rename requires a pennkey in PersonInfo");
+        }
+        
+        $this->user->setPrimaryEmail($primaryEmail);
+        $this->admin->updateGoogleUser($this);
+        $this->logger->backFillPennkey($this->personInfo);
+    }    
+    
+    /**
      * Activate a Google account: set the password and move to "activated-accounts" OU
      * @param string $password
      */
@@ -88,6 +104,7 @@ class GoogleUser {
         
         if ( $this->isPennIdHash() ) {
             // rename account using pennkey
+            $this->renameAccount();
         }
         $this->setPassword($password);
         $this->setOrgUnit('activated-accounts');
@@ -107,6 +124,14 @@ class GoogleUser {
     
     public function getUserId() {
         return $this->user_id;
+    }
+    
+    public function getLocalUserId() {
+        $pennkey = $this->personInfo->getPennkey();
+        if ( $pennkey ) {
+            return $pennkey . '@' . $this->admin->getEmailDomain();
+        }
+        return false;
     }
     
     public function getServiceDirectoryUser() {
