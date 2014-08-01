@@ -387,5 +387,13 @@ class GoogleAdminClient {
         }
         return in_array(strtolower($param), array('on', 'yes'));
     }
-        
+    
+    
+    /**
+     * Return the email domain from google params
+     * @return string
+     */
+    public function getEmailDomain() {
+        return $this->google_params['domain'];
+    }
 }
