@@ -198,7 +198,6 @@ class DefaultController extends Controller {
             $googleParams = $this->container->getParameter('google_params');
             
             try {
-                $address = implode('@', array($pennkey, $googleParams['relay_domain']));
                 $forwarding->setGmailForwarding($personInfo);
             } catch (\Exception $e) {
                 return $this->jsonError("An error occurred while setting up your mail forwarding");
@@ -208,7 +207,7 @@ class DefaultController extends Controller {
         return $this->json(array("result"  => "OK",
                 "message" => "Account activated",
                 "content" => $this->renderView("GMailConfigureBundle:Default:activateAccountSuccess.html.twig",
-                        array("userId"         => $user->getUserId(),
+                        array("userId"         => $user->getLocalUserId(),
                               "mailForwarding" => true))
         ));
     }    
@@ -273,7 +272,7 @@ class DefaultController extends Controller {
         return $this->json(array("result"  => "OK", 
                                  "message" => "Password reset complete",
                                  "content" => $this->renderView("GMailConfigureBundle:Default:passwordResetSuccess.html.twig",
-                                                    array("userId" => $user->getUserId()))
+                                                    array("userId" => $user->getLocalUserId()))
                 ));
     }
 
