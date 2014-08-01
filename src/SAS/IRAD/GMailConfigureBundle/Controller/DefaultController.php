@@ -199,7 +199,7 @@ class DefaultController extends Controller {
             
             try {
                 $address = implode('@', array($pennkey, $googleParams['relay_domain']));
-                $forwarding->setForwarding($personInfo, $user->getUserId(), $address);
+                $forwarding->setGmailForwarding($personInfo);
             } catch (\Exception $e) {
                 return $this->jsonError("An error occurred while setting up your mail forwarding");
             }
