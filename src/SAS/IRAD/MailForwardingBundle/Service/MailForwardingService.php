@@ -24,7 +24,7 @@ class MailForwardingService {
         $this->params  = $params;
         $this->gParams = $googleParams;
         
-        $this->file    = $this->storage->init($params['path']);
+        $this->file    = $this->storage->init($params['data_file']);
     }
     
     /**

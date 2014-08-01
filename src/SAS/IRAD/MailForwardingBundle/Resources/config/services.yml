@@ -1,6 +1,6 @@
 parameters:
     mail_forwarding:
-        path: "/set/path/to/forwarding/file"
+        data_file: "/set/path/to/forwarding/file"
 
 
 services:
