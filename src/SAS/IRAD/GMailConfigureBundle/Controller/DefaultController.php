@@ -192,7 +192,7 @@ class DefaultController extends Controller {
             return $this->jsonError("An error occurred while provisioning your Google account");
         }
         
-        if ( $params['mail_forwarding'] == 'YES' ) {
+        if ( isset($params['mail_forwarding']) && $params['mail_forwarding'] == 'YES' ) {
             
             $forwarding   = $this->get('mail_forwarding_service');
             $googleParams = $this->container->getParameter('google_params');
