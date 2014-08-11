@@ -7,5 +7,5 @@ services:
 
     mail_forwarding_service:
         class: SAS\IRAD\MailForwardingBundle\Service\MailForwardingService
-        arguments:  [ @file.storage, @account_logger, %mail_forwarding%, %google_params% ]
+        arguments:  [ @storage.file, @account_logger, %mail_forwarding%, %google_params% ]
 
