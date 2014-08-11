@@ -4,7 +4,7 @@ namespace SAS\IRAD\MailForwardingBundle\Service;
 
 use SAS\IRAD\FileStorageBundle\Service\FileStorageService;
 use SAS\IRAD\GmailAccountLogBundle\Service\AccountLogger;
-use SAS\IRAD\GoogleAdminClientBundle\Service\PersonInfoInterface;
+use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfoInterface;
 
 
 class MailForwardingService {
