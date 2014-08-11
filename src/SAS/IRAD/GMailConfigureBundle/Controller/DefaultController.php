@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SAS\IRAD\GoogleAdminClientBundle\Form\Type\AccountFormType;
 use SAS\IRAD\GoogleAdminClientBundle\Form\Type\GoogleNameType;
+use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfoInterface;
 
 
 class DefaultController extends Controller {
@@ -30,8 +31,8 @@ class DefaultController extends Controller {
             $user = $gmail->getGoogleUser($personInfo);
             
         } catch (\Exception $e ) {
-            // account hasn't been provisioned yet
-            return $this->redirect($this->generateUrl("gmailAccountDoesNotExist"));
+            $this->reportProblem($personInfo, $e);
+            return $this->redirect($this->generateUrl("serverError"));
         }
         
         if ( !$user ) {
@@ -105,6 +106,16 @@ class DefaultController extends Controller {
     public function gmailAccountDoesNotExistAction() {
         return array();
     }
+    
+
+    /**
+     * @Route("/server-error", name="serverError")
+     * @Template()
+     */
+    public function serverErrorAction() {
+        return array();
+    }
+    
     
     /**
      * @Route("/account-pending", name="gmailAccountPending")
@@ -292,4 +303,33 @@ class DefaultController extends Controller {
         $response->setData($array);
         return $response;
     }
-}
+    
+    
+    private function reportProblem(PersonInfoInterface $personInfo, \Exception $e) {
+
+        // log to web server error log
+        error_log($e->getMessage());
+        
+        // log to database log
+        $logger = $this->get('account_logger');
+        $logger->log($personInfo, 'ERROR', $e->getMessage());
+        
+        // notify configured admins
+        $params = $this->container->getParameter('google_params');
+        
+        if ( isset($params['report_errors_to']) ) {
+            
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Student Mail Provisioning Error')
+                ->setTo($params['report_errors_to'])
+                ->setFrom('apache@' . $_SERVER['HTTP_HOST'])
+                ->setBody(
+                    $this->renderView('GMailConfigureBundle:Default:reportErrorEmail.txt.twig',
+                        array('personInfo' => $personInfo,
+                              'error'      => $e->getMessage()))
+                        );
+
+            $this->get('mailer')->send($message);
+        }
+    }
+} 
