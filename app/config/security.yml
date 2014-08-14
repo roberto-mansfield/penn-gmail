@@ -14,7 +14,7 @@ security:
             pattern:    ^/.*
             provider:   cosign_user
             cosign_sso:
-                cosign_app: PennGoogleConfigure
+                cosign_app: GoogleOAuth2TokenManager
 
     access_control:
         -   { path: ^/admin/token$,      roles: [ ROLE_TOKEN_ADMIN ] }

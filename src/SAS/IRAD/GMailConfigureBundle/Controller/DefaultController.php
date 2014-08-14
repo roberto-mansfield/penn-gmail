@@ -20,13 +20,13 @@ class DefaultController extends Controller {
      */
     public function indexAction() {
         
-        $service = $this->get('penngroups.query_cache');
-        $gmail   = $this->get('google_admin_client');
+        $helper = $this->get('user_helper');
+        $gmail  = $this->get('google_admin_client');
         
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->findByPennkey($pennkey);
+        $personInfo = $helper->getPersonInfo();
 
-        // does the account exist?
+        // does the account exist? for the index page, use a try/catch
+        // so we can trap any exceptions and notify admins of problems
         try {
             $user = $gmail->getGoogleUser($personInfo);
             
@@ -60,7 +60,7 @@ class DefaultController extends Controller {
         
         $accountForm = $this->createForm(new AccountFormType());
         
-        return array('gmail'       => $gmail,
+        return array('pennEmail'   => $helper->getPennEmail(),
                      'user'        => $user,
                      'action'      => $action,
                      'accountForm' => $accountForm->createView());
@@ -72,13 +72,8 @@ class DefaultController extends Controller {
      */
     public function editNameAction(Request $request) {
 
-        $service = $this->get('penngroups.query_cache');
-        $gmail   = $this->get('google_admin_client');
-        
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->findByPennkey($pennkey);
-        
-        $user = $gmail->getGoogleUser($personInfo);
+        $helper = $this->get('user_helper');
+        $user   = $helper->getGoogleUser();
         
         $form = $this->createForm(new GoogleNameType());
         $form->handleRequest($request);
@@ -87,6 +82,7 @@ class DefaultController extends Controller {
                 
             $params = $request->request->get('GoogleName');
             $user->setName($params);
+            $user->commit();
 
             // takes a few seconds to update (or we can update local cache)
             sleep(3);
@@ -123,14 +119,9 @@ class DefaultController extends Controller {
      */
     public function gmailAccountPendingAction() {
 
-        $service = $this->get('penngroups.query_cache');
-        $gmail   = $this->get('google_admin_client');
-        
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->findByPennkey($pennkey);
-
-        $user = $gmail->getGoogleUser($personInfo);
-        
+        $helper = $this->get('user_helper');
+        $user   = $helper->getGoogleUser();
+                
         if ( !$user->isAccountPending() ) {
             return $this->redirect($this->generateUrl("gmailIndex"));
         }
@@ -153,21 +144,10 @@ class DefaultController extends Controller {
      */
     public function activateAccountAction() {
     
-        $service = $this->get('penngroups.query_cache');
-        $gmail   = $this->get('google_admin_client');
-    
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->findByPennkey($pennkey);
-    
-        // does the account exist?
-        try {
-            $user = $gmail->getGoogleUser($personInfo);
-    
-        } catch (\Exception $e ) {
-            // account hasn't been provisioned yet
-            return $this->jsonError("Invalid account");
-        }
-    
+        $helper = $this->get('user_helper');
+        $gmail  = $this->get('google_admin_client');
+        $user   = $helper->getGoogleUser();
+        
         if ( !$user ) {
             // account hasn't been provisioned yet
             return $this->jsonError("Invalid account");
@@ -198,28 +178,30 @@ class DefaultController extends Controller {
         }
     
         try {
-            $user->activateAccount($params['password1']);
+            $user->activateAccount(sha1($params['password1']));
         } catch (\Exception $e) {
+            error_log($e->getMessage());
             return $this->jsonError("An error occurred while provisioning your Google account");
         }
         
         if ( isset($params['mail_forwarding']) && $params['mail_forwarding'] == 'YES' ) {
             
-            $forwarding   = $this->get('mail_forwarding_service');
-            $googleParams = $this->container->getParameter('google_params');
+            $forwarding = $this->get('mail_forwarding_service');
             
             try {
-                $forwarding->setGmailForwarding($personInfo);
+                $forwarding->setGmailForwarding($user->getPersonInfo());
             } catch (\Exception $e) {
+                error_log("forwarding: " . $e->getMessage());
                 return $this->jsonError("An error occurred while setting up your mail forwarding");
             }
         }
         
-        return $this->json(array("result"  => "OK",
-                "message" => "Account activated",
-                "content" => $this->renderView("GMailConfigureBundle:Default:activateAccountSuccess.html.twig",
-                        array("userId"         => $user->getLocalUserId(),
-                              "mailForwarding" => true))
+        return $this->json(
+                array("result"  => "OK",
+                      "message" => "Account activated",
+                      "content" => $this->renderView("GMailConfigureBundle:Default:activateAccountSuccess.html.twig",
+                                    array("pennEmail"      => $helper->getPennEmail(),
+                                          "mailForwarding" => true))
         ));
     }    
     
@@ -230,20 +212,8 @@ class DefaultController extends Controller {
      */
     public function resetPasswordAction() {
 
-        $service = $this->get('penngroups.query_cache');
-        $gmail   = $this->get('google_admin_client');
-        
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $service->findByPennkey($pennkey);
-
-        // does the account exist?
-        try {
-            $user = $gmail->getGoogleUser($personInfo);
-        
-        } catch (\Exception $e ) {
-            // account hasn't been provisioned yet
-            return $this->jsonError("Invalid account");
-        }
+        $helper = $this->get('user_helper');
+        $user   = $helper->getGoogleUser();
         
         if ( !$user ) {
             // account hasn't been provisioned yet
@@ -275,15 +245,17 @@ class DefaultController extends Controller {
         }
         
         try {
-            $user->setPassword($params['password1']);
+            $user->setPassword(sha1($params['password1']));
+            $user->commit();
         } catch (\Exception $e) {
+            error_log($e->getMessage());
             return $this->jsonError("An error occurred while attempting to reset your password");
         }
         
         return $this->json(array("result"  => "OK", 
                                  "message" => "Password reset complete",
                                  "content" => $this->renderView("GMailConfigureBundle:Default:passwordResetSuccess.html.twig",
-                                                    array("userId" => $user->getLocalUserId()))
+                                                    array("pennEmail" => $helper->getPennEmail()))
                 ));
     }
 
@@ -306,30 +278,27 @@ class DefaultController extends Controller {
     
     
     private function reportProblem(PersonInfoInterface $personInfo, \Exception $e) {
-
+    
         // log to web server error log
         error_log($e->getMessage());
-        
-        // log to database log
-        $logger = $this->get('account_logger');
-        $logger->log($personInfo, 'ERROR', $e->getMessage());
-        
+    
         // notify configured admins
         $params = $this->container->getParameter('google_params');
-        
+    
         if ( isset($params['report_errors_to']) ) {
-            
+    
             $message = \Swift_Message::newInstance()
-                ->setSubject('Student Mail Provisioning Error')
-                ->setTo($params['report_errors_to'])
-                ->setFrom('apache@' . $_SERVER['HTTP_HOST'])
-                ->setBody(
+            ->setSubject('Student Mail Provisioning Error')
+            ->setTo($params['report_errors_to'])
+            ->setFrom('apache@' . $_SERVER['HTTP_HOST'])
+            ->setBody(
                     $this->renderView('GMailConfigureBundle:Default:reportErrorEmail.txt.twig',
-                        array('personInfo' => $personInfo,
-                              'error'      => $e->getMessage()))
-                        );
-
+                            array('personInfo' => $personInfo,
+                                    'error'      => $e->getMessage()))
+            );
+    
             $this->get('mailer')->send($message);
         }
     }
+
 } 

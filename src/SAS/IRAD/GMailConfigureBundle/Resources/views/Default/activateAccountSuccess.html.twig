@@ -10,7 +10,7 @@
         </ul>
         
         <p>It will take up to 20 minutes before you can start receiving mail at your new Google@SAS account. After 20 minutes you should test to make 
-        sure that the address is working properly by sending mail to: <strong>{{ userId }}</strong> <em>from another account</em>.</p>
+        sure that the address is working properly by sending mail to: <strong>{{ pennEmail }}</strong> <em>from another account</em>.</p>
         
     {% else %}
     
@@ -26,7 +26,7 @@
     
     <p>When you are ready to login to Google@SAS, click below.</p>
     
-    <form method="post" action="https://www.google.com/accounts/ServiceLogin?service=mail&Email={{ userId }}&continue=https://mail.google.com/mail/">
+    <form method="post" action="https://www.google.com/accounts/ServiceLogin?service=mail&Email={{ pennEmail }}&continue=https://mail.google.com/mail/">
     <input type="submit" value="Login to Google@SAS"/>
     </form>
 </div>

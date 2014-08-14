@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d747f176a6b3550d5a0348428d767466",
+    "hash": "a7d50d98e1df7a5ec140284be9ce5d48",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -66,7 +66,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -120,7 +120,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -141,7 +141,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -208,7 +208,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -284,7 +284,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -487,7 +487,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -541,7 +541,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -644,58 +644,6 @@
                     "src/"
                 ]
             }
-        },
-        {
-            "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.0",
-            "target-dir": "Incenteev/ParameterHandler",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/143272a0a09c62616a3c8011fc165a10c6b35241",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/yaml": "~2.0"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "symfony/filesystem": "~2.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Incenteev\\ParameterHandler": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christophe Coevoet",
-                    "email": "stof@notk.org"
-                }
-            ],
-            "description": "Composer script handling your ignored parameter file",
-            "homepage": "https://github.com/Incenteev/ParameterHandler",
-            "keywords": [
-                "parameters management"
-            ],
-            "time": "2013-12-07 10:10:39"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -968,23 +916,28 @@
         },
         {
             "name": "sas-irad/file-storage-bundle",
-            "version": "dev-master",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/file-storage-bundle.git",
-                "reference": "c05bb07d2ece14cdfedc198b2301dc7202454a54"
+                "reference": "0c11a9850bb9fc0b093253cc1e0337672d65bb82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/file-storage-bundle/zipball/c05bb07d2ece14cdfedc198b2301dc7202454a54",
-                "reference": "c05bb07d2ece14cdfedc198b2301dc7202454a54",
+                "url": "https://api.github.com/repos/sas-irad/file-storage-bundle/zipball/0c11a9850bb9fc0b093253cc1e0337672d65bb82",
+                "reference": "0c11a9850bb9fc0b093253cc1e0337672d65bb82",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "symfony/framework-bundle": ">=2.1,<2.2-dev"
+                "symfony/class-loader": ">=2.4,<2.5-dev",
+                "symfony/console": ">=2.4,<2.5-dev",
+                "symfony/debug": ">=2.4,<2.5-dev",
+                "symfony/finder": ">=2.4,<2.5-dev",
+                "symfony/framework-bundle": ">=2.4,<2.5-dev",
+                "symfony/yaml": ">=2.4,<2.5-dev"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -1003,30 +956,38 @@
             ],
             "description": "Bundle for file locking / decrypting",
             "support": {
-                "source": "https://github.com/sas-irad/file-storage-bundle/tree/master",
+                "source": "https://github.com/sas-irad/file-storage-bundle/tree/v1.0.2",
                 "issues": "https://github.com/sas-irad/file-storage-bundle/issues"
             },
-            "time": "2014-07-30 21:35:42"
+            "time": "2014-08-13 18:52:35"
         },
         {
             "name": "sas-irad/gmail-account-log-bundle",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/gmail-account-log-bundle.git",
-                "reference": "5e1e71630e0036d4de8366fd783f9f1055313cb1"
+                "reference": "3b6c8ebeff138cbbd6da705bb37eb75761473c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/5e1e71630e0036d4de8366fd783f9f1055313cb1",
-                "reference": "5e1e71630e0036d4de8366fd783f9f1055313cb1",
+                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/3b6c8ebeff138cbbd6da705bb37eb75761473c90",
+                "reference": "3b6c8ebeff138cbbd6da705bb37eb75761473c90",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.3.2",
+                "sas-irad/person-info-bundle": ">=1.0.0"
             },
             "require-dev": {
-                "symfony/framework-bundle": ">=2.1,<2.2-dev"
+                "doctrine/doctrine-bundle": "~1.2",
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "symfony/class-loader": ">=2.4,<2.5",
+                "symfony/console": ">=2.4,<2.5",
+                "symfony/debug": ">=2.4,<2.5",
+                "symfony/finder": ">=2.4,<2.5",
+                "symfony/framework-bundle": ">=2.4,<2.5",
+                "symfony/yaml": ">=2.4,<2.5"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -1048,33 +1009,43 @@
                 "source": "https://github.com/sas-irad/gmail-account-log-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/gmail-account-log-bundle/issues"
             },
-            "time": "2014-08-01 20:36:56"
+            "time": "2014-08-14 19:23:43"
         },
         {
-            "name": "sas-irad/gmail-oauth2-token-bundle",
-            "version": "dev-master",
+            "name": "sas-irad/google-admin-client-bundle",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sas-irad/gmail-oauth2-token-bundle.git",
-                "reference": "41658ef1160f9879fd7cc961a981e5323fb69d42"
+                "url": "https://github.com/sas-irad/google-admin-client-bundle.git",
+                "reference": "02d91c67437854f3e5b74f1448791418b8d808f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/gmail-oauth2-token-bundle/zipball/41658ef1160f9879fd7cc961a981e5323fb69d42",
-                "reference": "41658ef1160f9879fd7cc961a981e5323fb69d42",
+                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/02d91c67437854f3e5b74f1448791418b8d808f7",
+                "reference": "02d91c67437854f3e5b74f1448791418b8d808f7",
                 "shasum": ""
             },
             "require": {
+                "google/google-api-php-client": "1.0.4-beta",
                 "php": ">=5.3.2",
-                "sas-irad/file-storage-bundle": "dev-master"
+                "sas-irad/gmail-account-log-bundle": ">=1.0.1",
+                "sas-irad/google-oauth2-token-bundle": ">=1.1.1",
+                "sas-irad/person-info-bundle": ">=1.0.0"
             },
             "require-dev": {
-                "symfony/framework-bundle": ">=2.1,<2.2-dev"
+                "doctrine/doctrine-bundle": "~1.2",
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "symfony/class-loader": ">=2.4,<2.5-dev",
+                "symfony/console": ">=2.4,<2.5-dev",
+                "symfony/debug": ">=2.4,<2.5-dev",
+                "symfony/finder": ">=2.4,<2.5-dev",
+                "symfony/framework-bundle": ">=2.4,<2.5-dev",
+                "symfony/yaml": ">=2.4,<2.5-dev"
             },
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "SAS\\IRAD\\GmailOAuth2TokenBundle\\": ""
+                    "SAS\\IRAD\\GoogleAdminClientBundle\\": ""
                 }
             },
             "license": [
@@ -1086,29 +1057,96 @@
                     "email": "robertom@sas.upenn.edu"
                 }
             ],
-            "description": "Bundle for managing GMail OAuth2 authentication token",
+            "description": "Bundle for interfacing with Google Admin API",
             "support": {
-                "source": "https://github.com/sas-irad/gmail-oauth2-token-bundle/tree/master",
-                "issues": "https://github.com/sas-irad/gmail-oauth2-token-bundle/issues"
+                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/v1.0.1",
+                "issues": "https://github.com/sas-irad/google-admin-client-bundle/issues"
             },
-            "time": "2014-07-14 19:08:03"
+            "time": "2014-08-14 21:01:40"
         },
         {
-            "name": "sas-irad/penngroups-bundle",
-            "version": "dev-master",
+            "name": "sas-irad/google-oauth2-token-bundle",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sas-irad/penngroups-bundle.git",
-                "reference": "0721a148c9109f5ded5b1b358799e002c0d4b667"
+                "url": "https://github.com/sas-irad/google-oauth2-token-bundle.git",
+                "reference": "beba64a33b847044571f4adef92d57b45e52d9dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/penngroups-bundle/zipball/0721a148c9109f5ded5b1b358799e002c0d4b667",
-                "reference": "0721a148c9109f5ded5b1b358799e002c0d4b667",
+                "url": "https://api.github.com/repos/sas-irad/google-oauth2-token-bundle/zipball/beba64a33b847044571f4adef92d57b45e52d9dc",
+                "reference": "beba64a33b847044571f4adef92d57b45e52d9dc",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "google/google-api-php-client": "1.0.4-beta",
+                "php": ">=5.3.2",
+                "sas-irad/cosign-sso-bundle": ">=0.2.1",
+                "sas-irad/file-storage-bundle": ">=1.0.2"
+            },
+            "require-dev": {
+                "sensio/framework-extra-bundle": "~3.0",
+                "symfony/class-loader": ">=2.4,<2.5",
+                "symfony/console": ">=2.4,<2.5",
+                "symfony/debug": ">=2.4,<2.5",
+                "symfony/expression-language": ">=2.4,<2.5",
+                "symfony/finder": ">=2.4,<2.5",
+                "symfony/form": ">=2.4,<2.5",
+                "symfony/framework-bundle": ">=2.4,<2.5",
+                "symfony/http-kernel": ">=2.4,<2.5",
+                "symfony/security-bundle": ">=2.4,<2.5",
+                "symfony/twig-bundle": ">=2.4,<2.5",
+                "symfony/yaml": ">=2.4,<2.5",
+                "twig/extensions": "~1.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SAS\\IRAD\\GoogleOAuth2TokenBundle\\": ""
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Mansfield",
+                    "email": "robertom@sas.upenn.edu"
+                }
+            ],
+            "description": "Bundle for managing Google OAuth2 authentication token",
+            "support": {
+                "source": "https://github.com/sas-irad/google-oauth2-token-bundle/tree/v1.1.1",
+                "issues": "https://github.com/sas-irad/google-oauth2-token-bundle/issues"
+            },
+            "time": "2014-08-13 19:22:58"
+        },
+        {
+            "name": "sas-irad/penngroups-bundle",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sas-irad/penngroups-bundle.git",
+                "reference": "9675826cbb2982173ea5546a03f814db13586625"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sas-irad/penngroups-bundle/zipball/9675826cbb2982173ea5546a03f814db13586625",
+                "reference": "9675826cbb2982173ea5546a03f814db13586625",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "sas-irad/file-storage-bundle": ">=1.0.0",
+                "sas-irad/person-info-bundle": ">=1.0.0"
+            },
+            "require-dev": {
+                "symfony/class-loader": ">=2.4,<2.5-dev",
+                "symfony/console": ">=2.4,<2.5-dev",
+                "symfony/debug": ">=2.4,<2.5-dev",
+                "symfony/finder": ">=2.4,<2.5-dev",
+                "symfony/framework-bundle": ">=2.4,<2.5-dev",
+                "symfony/yaml": ">=2.4,<2.5-dev"
             },
             "type": "library",
             "autoload": {
@@ -1139,7 +1177,54 @@
                 "source": "https://github.com/sas-irad/penngroups-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/penngroups-bundle/issues"
             },
-            "time": "2014-07-10 15:27:23"
+            "time": "2014-08-08 20:50:54"
+        },
+        {
+            "name": "sas-irad/person-info-bundle",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sas-irad/person-info-bundle.git",
+                "reference": "60a961431a33b1a86ad2ac630024158683f207fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sas-irad/person-info-bundle/zipball/60a961431a33b1a86ad2ac630024158683f207fc",
+                "reference": "60a961431a33b1a86ad2ac630024158683f207fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SAS\\IRAD\\PersonInfoBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Mansfield",
+                    "email": "robertom@sas.upenn.edu"
+                }
+            ],
+            "description": "Base PersonInfoInterface and simple implementation",
+            "homepage": "http://www.sas.upenn.edu",
+            "keywords": [
+                "irad",
+                "penn_id",
+                "pennkey",
+                "personinfo",
+                "symfony"
+            ],
+            "support": {
+                "source": "https://github.com/sas-irad/person-info-bundle/tree/master",
+                "issues": "https://github.com/sas-irad/person-info-bundle/issues"
+            },
+            "time": "2014-08-08 18:48:16"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -1191,22 +1276,22 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.1",
+            "version": "v3.0.0",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "dbc1e5aa830f3bf8063b29102add3c1e476d616e"
+                "reference": "2016a90bd032248e7d6e9da29def4959821127c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/dbc1e5aa830f3bf8063b29102add3c1e476d616e",
-                "reference": "dbc1e5aa830f3bf8063b29102add3c1e476d616e",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/2016a90bd032248e7d6e9da29def4959821127c8",
+                "reference": "2016a90bd032248e7d6e9da29def4959821127c8",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.2",
-                "symfony/framework-bundle": "~2.5"
+                "symfony/framework-bundle": "~2.4"
             },
             "require-dev": {
                 "symfony/expression-language": "~2.4",
@@ -1244,7 +1329,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2014-05-22 23:27:44"
+            "time": "2013-12-03 07:53:39"
         },
         {
             "name": "sensio/generator-bundle",
@@ -1462,17 +1547,16 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.6.0",
-            "target-dir": "Symfony/Bundle/MonologBundle",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a"
+                "reference": "227bbeefe30f2d95e3fe5fbd1ccda414287a957a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a",
-                "reference": "e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/227bbeefe30f2d95e3fe5fbd1ccda414287a957a",
+                "reference": "227bbeefe30f2d95e3fe5fbd1ccda414287a957a",
                 "shasum": ""
             },
             "require": {
@@ -1494,8 +1578,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Symfony\\Bundle\\MonologBundle": ""
+                "psr-4": {
+                    "Symfony\\Bundle\\MonologBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1504,14 +1588,12 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony MonologBundle",
@@ -1520,7 +1602,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2014-06-04 16:49:13"
+            "time": "2014-07-21 00:36:06"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -1581,16 +1663,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.5.1",
+            "version": "v2.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "e3d2844abc988bc467bb1593cd340700096b0ac0"
+                "reference": "3da923989cce41c149c6f20b7723c052ac251b16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/e3d2844abc988bc467bb1593cd340700096b0ac0",
-                "reference": "e3d2844abc988bc467bb1593cd340700096b0ac0",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/3da923989cce41c149c6f20b7723c052ac251b16",
+                "reference": "3da923989cce41c149c6f20b7723c052ac251b16",
                 "shasum": ""
             },
             "require": {
@@ -1648,7 +1730,6 @@
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.2",
                 "doctrine/orm": "~2.2,>=2.2.3",
-                "egulias/email-validator": "1.1.0",
                 "ircmaxell/password-compat": "1.0.*",
                 "monolog/monolog": "~1.3",
                 "ocramius/proxy-manager": ">=0.3.1,<0.6-dev",
@@ -1657,7 +1738,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1693,7 +1774,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-07-08 14:42:08"
+            "time": "2014-07-15 14:52:02"
         },
         {
             "name": "twig/extensions",
@@ -1783,7 +1864,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher2",
+                    "name": "Armin Ronacher",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },
@@ -1809,12 +1890,9 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "google/google-api-php-client": 10,
-        "sas-irad/gmail-account-log-bundle": 20,
-        "sas-irad/gmail-oauth2-token-bundle": 20,
-        "sas-irad/penngroups-bundle": 20,
-        "sas-irad/file-storage-bundle": 20
+        "google/google-api-php-client": 10
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },

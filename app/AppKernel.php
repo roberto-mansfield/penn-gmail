@@ -20,11 +20,11 @@ class AppKernel extends Kernel
             new SAS\IRAD\CosignSSOBundle\CosignSSOBundle(),
             new SAS\IRAD\FileStorageBundle\FileStorageBundle(),
             new SAS\IRAD\GmailAccountLogBundle\GmailAccountLogBundle(),
-            new SAS\IRAD\GmailOAuth2TokenBundle\GmailOAuth2TokenBundle(),
-
-            new Penn\AssetsBundle\AssetsBundle(),
+            new SAS\IRAD\GoogleOAuth2TokenBundle\GoogleOAuth2TokenBundle(),
             new SAS\IRAD\GoogleAdminClientBundle\GoogleAdminClientBundle(),
             new SAS\IRAD\PennGroupsBundle\PennGroupsBundle(),
+                
+            new Penn\AssetsBundle\AssetsBundle(),
             new SAS\IRAD\GMailConfigureBundle\GMailConfigureBundle(),
             new SAS\IRAD\MailForwardingBundle\MailForwardingBundle(),
         );

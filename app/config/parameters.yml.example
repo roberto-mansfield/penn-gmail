@@ -29,9 +29,11 @@ parameters:
     ## Google domain parameters 
     google_params:
         domain:           ## domain for gmail email
+        relay_domain:     ## domain for relaying google destined email
         app_account:      ## known account in domain so we can query customer id
-        customer_id:      ## customer id value (store value here to cut down on another web call)
-        hash_salt:        ## salt string creating penn_id hash values
+        hash_salt:        ## salt string for creating penn_id hash values
+        account_creation: on    ## set to on/yes/true to allow new accounts to be setup, off/no/false to restrict
+        report_errors_to: ## email(s) to send error reports if user exception occurs (optional)
 
     ## admin users are defined here
     admin_users:
@@ -43,8 +45,21 @@ parameters:
         username:       "kerberos principle"
         credential:     "%kernel.root_dir%/config/keys/penngroups/encrypted.txt"
         key:            "%kernel.root_dir%/config/keys/penngroups/private.pem"
-        cache_timeout:  600
-        
+        cache_timeout:  600  ## required, must be integer
+
+    ## set keys for encrypted storage ##
+    file_storage:
+        keys:
+            public:     "%kernel.root_dir%/config/keys/public.pem"
+            private:    "%kernel.root_dir%/config/keys/private.pem"        
+
     ## define parameters for mail forwarding ##
     mail_forwarding:
-        path:           /www/apps/dev/forwards/var/data     ## file with forwarding data   
+        data_file:      /www/apps/dev/forwards/var/data
+        max_forwards:   3
+
+        ## prevent users from forwarding to accounts in these domains to prevent mail loops
+        equivalent_domains:
+            -   upenn.edu
+            -   sas.upenn.edu
+            -   same-as-sas.upenn.edu

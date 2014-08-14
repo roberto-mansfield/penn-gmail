@@ -3,6 +3,7 @@
 	"license" : "MIT",
 	"type" : "project",
 	"description" : "The \"Symfony Standard Edition\" distribution",
+	"minimum-stability" : "stable",
 	"autoload" : {
 		"psr-0" : {
 			"" : "src/"
@@ -10,7 +11,7 @@
 	},
 	"require" : {
 		"php" : ">=5.3.3",
-		"symfony/symfony" : "~2.4",
+		"symfony/symfony" : ">=2.4,<2.5",
 		"doctrine/orm" : "~2.2,>=2.2.3",
 		"doctrine/doctrine-bundle" : "~1.2",
 		"twig/extensions" : "~1.0",
@@ -20,13 +21,14 @@
 		"sensio/distribution-bundle" : "~2.3",
 		"sensio/framework-extra-bundle" : "~3.0",
 		"sensio/generator-bundle" : "~2.3",
-		"incenteev/composer-parameter-handler" : "~2.0",
 		"google/google-api-php-client" : "1.0.4-beta",
 		"sas-irad/cosign-sso-bundle" : "0.2.1",
-		"sas-irad/gmail-account-log-bundle" : "dev-master",
-		"sas-irad/gmail-oauth2-token-bundle" : "dev-master",
-		"sas-irad/penngroups-bundle" : "dev-master",
-		"sas-irad/file-storage-bundle" : "dev-master"
+		"sas-irad/file-storage-bundle" : ">=1.0.1",
+		"sas-irad/gmail-account-log-bundle" : ">=1.0.1",
+		"sas-irad/google-oauth2-token-bundle" : ">=1.1.1",
+		"sas-irad/google-admin-client-bundle" : ">=1.0.1",
+		"sas-irad/penngroups-bundle" : ">=1.0.0",
+		"sas-irad/person-info-bundle" : ">=1.0.0"
 	},
 	"repositories" : [{
 			"type" : "package",
@@ -51,13 +53,22 @@
 			"url" : "https://github.com/sas-irad/gmail-account-log-bundle"
 		}, {
 			"type" : "vcs",
-			"url" : "https://github.com/sas-irad/gmail-oauth2-token-bundle"
+			"url" : "https://github.com/sas-irad/google-oauth2-token-bundle"
 		}, {
 			"type" : "vcs",
 			"url" : "https://github.com/sas-irad/penngroups-bundle"
 		}, {
 			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/person-info-bundle"
+		}, {
+			"type" : "vcs",
 			"url" : "https://github.com/sas-irad/file-storage-bundle"
+		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/google-admin-client-bundle"
+		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/sas-irad/person-info-bundle"
 		}
 	],
 	"scripts" : {
@@ -80,9 +91,6 @@
 	"extra" : {
 		"symfony-app-dir" : "app",
 		"symfony-web-dir" : "web",
-		"incenteev-parameters" : {
-			"file" : "app/config/parameters.yml"
-		},
 		"branch-alias" : {
 			"dev-master" : "2.4-dev"
 		}

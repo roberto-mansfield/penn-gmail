@@ -14,6 +14,6 @@ account_log:
     prefix:   /admin/accountLog
 
 oauth2_token:
-    resource: "@GmailOAuth2TokenBundle/Controller"
+    resource: "@GoogleOAuth2TokenBundle/Controller"
     type:     annotation
     prefix:   /admin/token
