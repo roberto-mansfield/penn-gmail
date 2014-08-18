@@ -147,6 +147,11 @@ class DefaultController extends Controller {
         $helper = $this->get('user_helper');
         $gmail  = $this->get('google_admin_client');
         $user   = $helper->getGoogleUser();
+
+        // is account creation currently available?
+        if ( !$gmail->isAccountCreationAvailable() ) {
+            return $this->forward("GMailConfigureBundle:Default:gmailAccountCreationDisabled");
+        }        
         
         if ( !$user ) {
             // account hasn't been provisioned yet
