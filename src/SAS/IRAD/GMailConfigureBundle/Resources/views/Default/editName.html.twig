@@ -34,7 +34,7 @@
                     <br/>
                 </div>
                 <div class="field-input">
-                    <input type="button" name="button" id="updateNameButton" value="Continue"/>
+                    <button type="button" id="updateNameButton">Update</button>
                 </div>
                 <div style="clear: both;"></div>
             </div>
@@ -44,5 +44,6 @@
         <div style="padding-top: 30px; padding-bottom: 30px;">
             [ <a href="{{ path('gmailIndex') }}">Cancel</a> ]
         </div>
-
+        
+        <img id="progress-img" src="{{ asset("bundles/assets/img/ajax-loader.gif") }}" height="8px" style="display: none" />
 {% endblock %}
