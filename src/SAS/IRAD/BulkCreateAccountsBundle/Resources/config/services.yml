@@ -1,0 +1,7 @@
+parameters:
+#    bulk_create_accounts.example.class: SAS\IRAD\BulkCreateAccountsBundle\Example
+
+services:
+    bulk_command_helper:
+        class:      SAS\IRAD\BulkCreateAccountsBundle\Service\BulkCommandHelperService
+        arguments:  [ %bulk_command%, %account_logger% ]

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b874f2f099007d3f175596eff49acfd9",
+    "hash": "f1fc71e8ad08e933bba01c712dba1c21",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -963,16 +963,16 @@
         },
         {
             "name": "sas-irad/gmail-account-log-bundle",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/gmail-account-log-bundle.git",
-                "reference": "3b6c8ebeff138cbbd6da705bb37eb75761473c90"
+                "reference": "9d39716fb8996966f231d6c47565ca7a85ca3f89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/3b6c8ebeff138cbbd6da705bb37eb75761473c90",
-                "reference": "3b6c8ebeff138cbbd6da705bb37eb75761473c90",
+                "url": "https://api.github.com/repos/sas-irad/gmail-account-log-bundle/zipball/9d39716fb8996966f231d6c47565ca7a85ca3f89",
+                "reference": "9d39716fb8996966f231d6c47565ca7a85ca3f89",
                 "shasum": ""
             },
             "require": {
@@ -1006,29 +1006,29 @@
             ],
             "description": "Bundle for logging GMail account provisioning",
             "support": {
-                "source": "https://github.com/sas-irad/gmail-account-log-bundle/tree/master",
+                "source": "https://github.com/sas-irad/gmail-account-log-bundle/tree/v1.0.2",
                 "issues": "https://github.com/sas-irad/gmail-account-log-bundle/issues"
             },
-            "time": "2014-08-14 19:23:43"
+            "time": "2014-08-21 15:35:47"
         },
         {
             "name": "sas-irad/google-admin-client-bundle",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/google-admin-client-bundle.git",
-                "reference": "2f7bd949e6a59f1e24ac6c096ea9cb1d34704579"
+                "reference": "640ec6690341229f2a4cb7e32e4940e8601b53c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/2f7bd949e6a59f1e24ac6c096ea9cb1d34704579",
-                "reference": "2f7bd949e6a59f1e24ac6c096ea9cb1d34704579",
+                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/640ec6690341229f2a4cb7e32e4940e8601b53c5",
+                "reference": "640ec6690341229f2a4cb7e32e4940e8601b53c5",
                 "shasum": ""
             },
             "require": {
                 "google/google-api-php-client": "1.0.4-beta",
                 "php": ">=5.3.2",
-                "sas-irad/gmail-account-log-bundle": ">=1.0.1",
+                "sas-irad/gmail-account-log-bundle": ">=1.0.2",
                 "sas-irad/google-oauth2-token-bundle": ">=1.1.1",
                 "sas-irad/person-info-bundle": ">=1.0.0"
             },
@@ -1059,10 +1059,10 @@
             ],
             "description": "Bundle for interfacing with Google Admin API",
             "support": {
-                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/v1.0.2",
+                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/master",
                 "issues": "https://github.com/sas-irad/google-admin-client-bundle/issues"
             },
-            "time": "2014-08-18 14:35:42"
+            "time": "2014-08-21 15:58:33"
         },
         {
             "name": "sas-irad/google-oauth2-token-bundle",

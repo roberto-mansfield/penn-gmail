@@ -1,0 +1,108 @@
+<?php
+
+namespace SAS\IRAD\BulkCreateAccountsBundle\Command;
+
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfo;
+use SAS\IRAD\BulkCreateAccountsBundle\Entity\Account;
+
+class BulkCreateAccountsCommand extends ContainerAwareCommand {
+    
+    protected function configure() {
+        
+        $this
+            ->setName('google:bulk-create-accounts')
+            ->setDescription('Bulk create google accounts. Options defined in parameters.yml.')
+            ->addOption('rebuild-cache', false, InputOption::VALUE_NONE, 'If set, rebuild the account cache database')
+            ;
+        
+        $this->setHelp("Bulk create student accounts for GMail@SAS");
+    }
+
+    
+    protected function execute(InputInterface $input, OutputInterface $output) {
+
+        $rebuild_cache = $input->getOption('rebuild-cache');
+        
+        $helper = $this->getContainer()->get('bulk_command_helper');
+        $ldap   = $this->getContainer()->get("penngroups.ldap_query");
+        $lookup = $this->getContainer()->get("penngroups.web_service_query");
+        $google = $this->getContainer()->get("google_admin_client");
+        
+        $em = $this->getContainer()->get('doctrine')->getManager("account_cache");
+        // disable sql logging (in case we are in dev) to avoid memory crash
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $cacheRepo = $em->getRepository("BulkCreateAccountsBundle:Account");
+        
+        $students = $helper->getEligibleStudents();
+
+        if ( $rebuild_cache ) {
+            $output->writeln("Clearing cache entries...");
+            $cacheRepo->deleteAll();
+
+            $output->writeln("Retrieving current list of google accounts...");
+            $users = array();
+            foreach ( $google->getAllGoogleUsers() as $user ) {
+                list($username, $domain) = explode('@', $user);
+                $users[$username] = $username;
+            }
+        }
+                
+        // process each student in the list
+        $count = 0;
+        $output->writeln("Checking for new accounts...");
+        foreach ( $students as $penn_id ) {
+            
+            $account = $cacheRepo->findOneByPennId($penn_id);
+            
+            if ( !$account ) {
+                $account = new Account();
+                $account->setPennId($penn_id);
+            }
+
+            if ( !$account->getPennkey() ) {
+                $result = $ldap->findByPennId($penn_id);
+                if ( $result && $result->getPennkey() ) {
+                    $account->setPennkey($result->getPennkey());
+                }
+            }
+
+            if ( $rebuild_cache ) {
+                $hash = $google->getPennIdHash($penn_id);
+                $created = ( in_array($account->getPennkey(), $users) || in_array($hash, $users) );
+                $account->setCreated($created);
+            }
+            
+            if ( !$account->getCreated() ) {
+                $personInfo = $lookup->findByPennId($penn_id);
+                if ( !$personInfo ) {
+                    $helper->errorLog("No lookup data found for penn_id: $penn_id");
+                } else {
+                    try {
+                        $google->createGoogleUser($personInfo, sha1($helper->randomPassword()));
+                        $account->setCreated(true);
+                    } catch (\Exception $e) {
+                        $helper->errorLog("Exception occurred creating account for penn_id: $penn_id, pennkey: " . $account->getPennkey() . ", error: " . $e->getMessage());
+                    }
+                }
+            }
+            
+            $em->persist($account);
+            $em->flush();
+            
+            if ( ($count%100) == 0 ) {
+                $output->write('.');
+                $em->clear();
+            }
+            $count++;
+        }
+        $output->writeln('.');
+        $output->writeln("Done.");
+    }
+   
+}
