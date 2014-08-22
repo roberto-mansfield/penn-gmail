@@ -77,7 +77,7 @@
                       
                       {% else %}
                           {# account creation may be disabled in config #}
-                          {% if gmail.isAccountCreationAvailable %}
+                          {% if accountCreationAvailable %}
                               {% if googleUser.isAccountPending %}
                                   {# acount exists and is pending 24hr wait before user may activate #}
                                   <div class="field-label-set">

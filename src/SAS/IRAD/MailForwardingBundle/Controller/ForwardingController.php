@@ -18,18 +18,27 @@ class ForwardingController extends Controller {
      */
     public function indexAction() {
         
-        $penngroups = $this->get('penngroups.query_cache');
+        $helper     = $this->get('user_helper');
         $gmail      = $this->get('google_admin_client');
         $forwarding = $this->get('mail_forwarding_service');
         
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $penngroups->findByPennkey($pennkey);
+        $personInfo = $helper->getPersonInfo();
+        
+        try {
+            $eligible = $helper->userIsForwardingEligible();
+        } catch (\Exception $e) {
+            return $this->redirect($this->generateUrl("authCheckError"));
+        }
+        
+        if ( !$eligible ) {
+            return $this->redirect($this->generateUrl("forwardingIneligible"));
+        }
         
         // does the Google account exist?
-        $googleUser = $gmail->getGoogleUser($personInfo);
+        $googleUser = $helper->getGoogleUser();
         
         // get forwarding info
-        $email    = $this->userEmail();
+        $email    = $helper->getPennEmail();
         $forwards = $forwarding->getForwarding($email);
         $forward_type = $forwarding->getForwardingType($forwards);
 
@@ -39,7 +48,7 @@ class ForwardingController extends Controller {
         return array('email'            => $email,
                      'forwards'         => $forwards,
                      'forwardingType'   => $forward_type,
-                     'gmail'            => $gmail,
+                     'accountCreationAvailable' => $gmail->isAccountCreationAvailable(),
                      'googleUser'       => $googleUser,
                      'form'             => $form->createView(),
                      'maxForwards'      => $forwarding->getMaxForwards(),
@@ -53,18 +62,15 @@ class ForwardingController extends Controller {
      */
     public function updateForwardingAction(Request $request) {
     
-        $penngroups = $this->get('penngroups.query_cache');
-        $gmail      = $this->get('google_admin_client');
+        $helper     = $this->get('user_helper');
         $forwarding = $this->get('mail_forwarding_service');
-    
-        $pennkey    = $this->getUser()->getUsername();
-        $personInfo = $penngroups->findByPennkey($pennkey);
+        $personInfo = $helper->getPersonInfo();
     
         // does the Google account exist?
-        $googleUser = $gmail->getGoogleUser($personInfo);
+        $googleUser = $helper->getGoogleUser();
     
         // get forwarding info
-        $email    = $this->userEmail();
+        $email    = $helper->getPennEmail();
         $forwards = $forwarding->getForwarding($email);
         $forward_type = $forwarding->getForwardingType($forwards);
     
@@ -124,16 +130,40 @@ class ForwardingController extends Controller {
      * @Template()
      */
     public function helpAction() {
-        return array('email' => $this->userEmail());
-    }
-    
-    
-    public function userEmail() {
-        $pennkey = $this->getUser()->getUsername();
-        $googleParams = $this->container->getParameter('google_params');
-        return $pennkey . '@' . $googleParams['domain'];
+        $helper = $this->get('user_helper');
+        return array('email' => $helper->getPennEmail());
     }
 
+    
+    /**
+     * @Route("/ineligible", name="forwardingIneligible")
+     * @Template()
+     */
+    public function forwardingIneligibleAction() {
+        
+        $helper     = $this->get('user_helper');
+        $auth_check = $helper->getAuthCheck();
+        
+        if ( $auth_check->getValue('facstaff_exists') == 'yes' ) {
+            $link  = 'https://www.sas.upenn.edu/facstaff/account/';
+            $label = 'Configure my FacStaff account';
+        
+        } else {
+            $link  = 'http://www.sas.upenn.edu/computing/help/';
+            $label = 'View the SAS Computing FAQ pages';
+        }
+        
+        return compact('link', 'label');
+    }
+    
+    
+    /**
+     * @Route("/authCheckError", name="authCheckError")
+     * @Template()
+     */
+    public function authCheckErrorAction() {
+        return array();
+    }    
     
     private function jsonError($message) {
         return $this->json(array("result" => "ERROR", "message" => $message));

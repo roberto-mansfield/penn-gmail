@@ -179,8 +179,7 @@ class MailForwardingService {
     }
             
     
-    
-    
+
     /**
      * Parse the forwarding data into an array structure. Data should be in the format:
      * 

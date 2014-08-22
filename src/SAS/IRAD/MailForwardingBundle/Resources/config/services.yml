@@ -9,3 +9,6 @@ services:
         class: SAS\IRAD\MailForwardingBundle\Service\MailForwardingService
         arguments:  [ @storage.file, @account_logger, %mail_forwarding%, %google_params% ]
 
+    auth_check_service:
+        class: SAS\IRAD\MailForwardingBundle\AuthCheck\AuthCheckService
+        arguments:  [ @session, %mail_forwarding% ]

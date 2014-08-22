@@ -1,0 +1,20 @@
+{% extends "MailForwardingBundle::base.html.twig" %}
+
+{% block body %}
+
+    <DIV id="main" style="width: 600px">
+    
+    <p>Sorry, you are not currently eligible for this service.  This service
+    is only available for SAS undergraduate and LPS students.  
+    If we currently do not have your updated eligibility information, please 
+    visit the registrar to make sure that your information is properly updated.</p>
+    
+    <p>Other mail users should visit the web account services link below to configure or change settings on their account.</p>
+    
+    <ul>
+      <li><a href="{{ link }}">{{ label }}</a></li>
+    </ul>
+    
+    </DIV>
+
+{% endblock %}
