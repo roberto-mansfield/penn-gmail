@@ -57,7 +57,7 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
         $count = 0;
         $output->writeln("Checking for new accounts...");
         foreach ( $students as $penn_id ) {
-            
+
             $account = $cacheRepo->findOneByPennId($penn_id);
             
             if ( !$account ) {

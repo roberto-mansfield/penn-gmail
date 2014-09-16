@@ -49,6 +49,13 @@ class BulkCommandHelperService {
         $students = $this->loadData($this->params['student_list']);
         $facstaff = $this->loadData($this->params['facstaff_list']);
         
+        // remove "fake" penn_ids: 0999999
+        foreach ( $students as $index => $penn_id ) {
+            if ( preg_match("/^0\d{7}$/", $penn_id) ) {
+                unset($students[$index]);
+            }
+        }
+        
         // remove any facstaff entries from students
         foreach ( array_intersect($students, $facstaff) as $penn_id ) {
             $index = array_search($penn_id, $students);
