@@ -1,7 +1,5 @@
 imports:
     - { resource: config.yml }
-    ## overwrite parameters with prod version for some testing
-    - { resource: parameters_prod.yml }
 
 monolog:
     handlers:
