@@ -88,7 +88,12 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
                         $account->setCreated(true);
                     } catch (\Exception $e) {
                         $helper->errorLog("Exception occurred creating account for penn_id: $penn_id, pennkey: " . $account->getPennkey() . ", error: " . $e->getMessage());
+                        if ( preg_match("", $e->getMessage()) ) {
+                            // if entity already exists, update cache
+                            $account->setCreated(true);
+                        }
                     }
+                    
                 }
             }
             
