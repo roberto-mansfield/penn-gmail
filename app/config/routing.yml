@@ -1,3 +1,7 @@
+default:
+    path:     /
+    defaults: { _controller: MailForwardingBundle:Forwarding:index }
+
 gmail_configure:
     resource: "@GMailConfigureBundle/Controller/"
     type:     annotation
