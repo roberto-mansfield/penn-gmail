@@ -27,7 +27,7 @@ class AuthCheckService {
         $penn_id = $personInfo->getPennId();
         $pennkey = $personInfo->getPennkey();
         
-        if ( $cache = $this->session->get("authCheck/$pennkey/$penn_id") ) {
+        if ( $cache = $this->session->get("{$this->auth_script}/$pennkey/$penn_id") ) {
             if ( $cache['expires_on'] > time() ) {
                 return $cache['data'];
             }
@@ -47,7 +47,7 @@ class AuthCheckService {
         $info = array('expires_on' => time() + 3600,
                       'data'       => $result);
         
-        $this->session->set("authCheck/$pennkey/$penn_id", $info);        
+        $this->session->set("{$this->auth_script}/$pennkey/$penn_id", $info);  
         return $result;
     }
     
