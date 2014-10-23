@@ -41,7 +41,7 @@ class UserInfoController extends Controller {
         
         // get account logs
         $repo = $this->getDoctrine()->getRepository("GmailAccountLogBundle:AccountLog");
-        $entries = $repo->getBySearchTerm($search_term);
+        $entries = $repo->getBySearchTerm($userinfo->getPennId());
         
         return array('search_term' => $search_term,
                      'userinfo'    => $userinfo,
