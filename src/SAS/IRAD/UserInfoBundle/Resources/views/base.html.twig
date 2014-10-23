@@ -1,0 +1,9 @@
+{% extends "GmailAccountLogBundle::base.html.twig" %}
+
+{% block page_title %}SAS: UserInfo{% endblock %}
+{% block page_header %}Check User Info{% endblock %}
+
+{% block sidebar_links %}
+    {{ parent() }}
+    <li class='navbar'><a class='navbar' href="{{ path("userInfoIndex") }}">Check User</a></li>
+{% endblock %}

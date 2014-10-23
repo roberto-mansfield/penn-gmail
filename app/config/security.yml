@@ -21,3 +21,5 @@ security:
         -   { path: ^/admin/token/,      roles: [ ROLE_TOKEN_ADMIN ] }
         -   { path: ^/admin/accountLog$, roles: [ ROLE_LOG_ADMIN ]  }
         -   { path: ^/admin/accountLog/, roles: [ ROLE_LOG_ADMIN ]  }
+        -   { path: ^/admin/userinfo$,   roles: [ ROLE_LOG_ADMIN ]  }
+        -   { path: ^/admin/userinfo/,   roles: [ ROLE_LOG_ADMIN ]  }

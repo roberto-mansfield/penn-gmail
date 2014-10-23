@@ -46,5 +46,8 @@ class AuthCheckResult {
         return false;
     }
     
+    public function getData() {
+        return $this->data;
+    }
 }
 

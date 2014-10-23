@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new SAS\IRAD\GMailConfigureBundle\GMailConfigureBundle(),
             new SAS\IRAD\MailForwardingBundle\MailForwardingBundle(),
             new SAS\IRAD\BulkCreateAccountsBundle\BulkCreateAccountsBundle(),
+            new SAS\IRAD\UserInfoBundle\UserInfoBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

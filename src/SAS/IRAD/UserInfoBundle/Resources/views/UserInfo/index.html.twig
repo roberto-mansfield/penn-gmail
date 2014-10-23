@@ -1,0 +1,10 @@
+{% extends "UserInfoBundle::base.html.twig" %}
+
+{% block body %}
+    <script src="{{ asset("bundles/gmailaccountlog/js/search.js") }}"></script>
+    <p>Pennkey/PennID: <input id="search_term" value="{{ search_term }}" size="10" maxlength="16"/> <button type="button" id="search" data-search-url="{{ path("userInfoIndex") }}">Search</button></p>
+
+    {% if search_term %}
+        {% include "UserInfoBundle:UserInfo:userInfo.html.twig" %}
+   {% endif %}
+{% endblock %}

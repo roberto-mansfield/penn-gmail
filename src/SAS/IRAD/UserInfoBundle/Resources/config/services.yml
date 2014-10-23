@@ -1,0 +1,7 @@
+parameters:
+#    user_info.example.class: SAS\IRAD\UserInfoBundle\Example
+
+services:
+#    user_info.example:
+#        class: %user_info.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

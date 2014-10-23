@@ -24,7 +24,7 @@
 		"google/google-api-php-client" : "1.0.4-beta",
 		"sas-irad/cosign-sso-bundle" : "0.2.1",
 		"sas-irad/file-storage-bundle" : ">=1.0.1",
-		"sas-irad/gmail-account-log-bundle" : ">=1.0.2",
+		"sas-irad/gmail-account-log-bundle" : ">=1.0.3",
 		"sas-irad/google-oauth2-token-bundle" : ">=1.1.1",
 		"sas-irad/google-admin-client-bundle" : ">=1.0.3",
 		"sas-irad/penngroups-bundle" : ">=1.0.0",

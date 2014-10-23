@@ -21,3 +21,8 @@ oauth2_token:
     resource: "@GoogleOAuth2TokenBundle/Controller"
     type:     annotation
     prefix:   /admin/token
+    
+user_info:
+    resource: "@UserInfoBundle/Controller"
+    type:     annotation
+    prefix:   /admin/userinfo
