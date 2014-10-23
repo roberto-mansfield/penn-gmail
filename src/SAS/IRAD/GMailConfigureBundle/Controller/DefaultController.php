@@ -152,7 +152,7 @@ class DefaultController extends Controller {
         if ( !$gmail->isAccountCreationAvailable() ) {
             return $this->forward("GMailConfigureBundle:Default:gmailAccountCreationDisabled");
         }        
-        
+
         if ( !$user ) {
             // account hasn't been provisioned yet
             return $this->jsonError("Invalid account");

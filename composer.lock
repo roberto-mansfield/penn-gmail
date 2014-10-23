@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "902eb261034926e31368037023cd613f",
+    "hash": "1b12541e45474ee0d13e190f8e9b1a23",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1004,16 +1004,16 @@
         },
         {
             "name": "sas-irad/google-admin-client-bundle",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/google-admin-client-bundle.git",
-                "reference": "640ec6690341229f2a4cb7e32e4940e8601b53c5"
+                "reference": "287ccfb65ce48c1cad10e37a7d8182f86268c791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/640ec6690341229f2a4cb7e32e4940e8601b53c5",
-                "reference": "640ec6690341229f2a4cb7e32e4940e8601b53c5",
+                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/287ccfb65ce48c1cad10e37a7d8182f86268c791",
+                "reference": "287ccfb65ce48c1cad10e37a7d8182f86268c791",
                 "shasum": ""
             },
             "require": {
@@ -1050,10 +1050,10 @@
             ],
             "description": "Bundle for interfacing with Google Admin API",
             "support": {
-                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/master",
+                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/v1.0.4",
                 "issues": "https://github.com/sas-irad/google-admin-client-bundle/issues"
             },
-            "time": "2014-08-21 15:58:33"
+            "time": "2014-10-23 19:31:48"
         },
         {
             "name": "sas-irad/google-oauth2-token-bundle",
