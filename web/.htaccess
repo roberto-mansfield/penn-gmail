@@ -51,23 +51,7 @@ DirectoryIndex app.php
     </IfModule>
 </IfModule>
 
-<Files app.php>
-    CosignProtected On
-    AuthType Cosign
-    Require valid-user
-    CosignRequireFactor   UPENN.EDU
-</Files>
-
-<Files app_dev.php>
-    CosignProtected On
-    AuthType Cosign
-    Require valid-user
-    CosignRequireFactor   UPENN.EDU
-</Files>
-
-<Files app_prod.php>
-    CosignProtected On
-    AuthType Cosign
-    Require valid-user
-    CosignRequireFactor   UPENN.EDU
-</Files>
+CosignProtected On
+AuthType Cosign
+Require valid-user
+CosignRequireFactor   UPENN.EDU
