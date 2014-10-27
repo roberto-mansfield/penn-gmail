@@ -38,7 +38,7 @@ table.check-user th {
             <th>Account Check:</th>
             <td>
                 {% for key,value in chkInfo.getData %}
-                    {{ key }} = {{ value }}<br/>
+                    {{ key }} = {% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}<br/>
                 {% endfor %}
             </td>
         </tr>    
