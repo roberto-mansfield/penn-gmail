@@ -20,28 +20,31 @@ table.check-user th {
     <table class="check-user">
         <tr>
             <th>PennID:</th>
-            <td>{{ userinfo.getPennId }}</td>
+            <td colspan="2">{{ userinfo.getPennId }}</td>
         </tr>
         <tr>
             <th>Pennkey:</th>
-            <td>{{ userinfo.getPennkey }}</td>
+            <td colspan="2">{{ userinfo.getPennkey }}</td>
         </tr>
         <tr>
             <th>Name:</th>
-            <td>{{ userinfo.getFirstName }} {{ userinfo.getLastName }}</td>
+            <td colspan="2">{{ userinfo.getFirstName }} {{ userinfo.getLastName }}</td>
         </tr>
         <tr>
             <th>Forwarding:</th>
-            <td>{{ forwards|join('<br/>') }}</td>
+            <td colspan="2">{{ forwards|join('<br/>')|default('none') }}</td>
         </tr>    
-        <tr>
-            <th>Account Check:</th>
-            <td>
-                {% for key,value in chkInfo.getData %}
-                    {{ key }} = {% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}<br/>
-                {% endfor %}
-            </td>
-        </tr>    
+        {% for key,value in chkInfo.getData %}
+            {% if key != 'ssh_script_run' %}
+                <tr>
+                    {% if loop.first %}
+                        <th rowspan="{{ chkInfo.getData|length }}">Account Check:</th>
+                    {% endif %}
+                    <td>{{ key }}</td>
+                    <td>{% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}</td>
+                </tr>
+            {% endif %}    
+        {% endfor %}
     </table>
     
     <h4>Account Logs</h4>
