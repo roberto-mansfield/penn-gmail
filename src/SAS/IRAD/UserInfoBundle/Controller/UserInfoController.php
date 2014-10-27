@@ -32,22 +32,23 @@ class UserInfoController extends Controller {
             return array('search_term' => $search_term);
         }
         
-        // get mail forwarding
-        $email    = $gadmin->getUserId($userinfo->getPennkey());
-        $forwards = $forwarding->getForwarding($email);
+        $result = array('search_term' => $search_term,
+                        'userinfo'    => $userinfo);
         
-        // get account info
-        $chkInfo  = $authcheck->authCheck($userinfo);
+        // is the pennkey/penn_id valid?
+        if ( $userinfo ) {
+            // get mail forwarding
+            $email    = $gadmin->getUserId($userinfo->getPennkey());
+            $result['forwards'] = $forwarding->getForwarding($email);
+            
+            // get account info
+            $result['chkInfo']  = $authcheck->authCheck($userinfo);
         
-        // get account logs
-        $repo = $this->getDoctrine()->getRepository("GmailAccountLogBundle:AccountLog");
-        $entries = $repo->getBySearchTerm($userinfo->getPennId());
+            // get account logs
+            $repo = $this->getDoctrine()->getRepository("GmailAccountLogBundle:AccountLog");
+            $result['entries']  = $repo->getBySearchTerm($userinfo->getPennId());
+        }
         
-        return array('search_term' => $search_term,
-                     'userinfo'    => $userinfo,
-                     'forwards'    => $forwards,
-                     'chkInfo'     => $chkInfo,
-                     'entries'     => $entries,
-        );
+        return $result;
     }
 }
