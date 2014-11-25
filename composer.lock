@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "252834ec28c77ba85510c23a23a2ea8d",
+    "hash": "ebcc272841adeb561af973d4d66efb1e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -615,10 +615,10 @@
         },
         {
             "name": "google/google-api-php-client",
-            "version": "1.0.4-beta",
+            "version": "1.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/google/google-api-php-client/archive/1.0.4-beta.zip",
+                "url": "https://github.com/google/google-api-php-client/archive/1.1.2.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1004,23 +1004,23 @@
         },
         {
             "name": "sas-irad/google-admin-client-bundle",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/google-admin-client-bundle.git",
-                "reference": "287ccfb65ce48c1cad10e37a7d8182f86268c791"
+                "reference": "8d5c3e24bc8e239b101c40ca131c16f9630af31a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/287ccfb65ce48c1cad10e37a7d8182f86268c791",
-                "reference": "287ccfb65ce48c1cad10e37a7d8182f86268c791",
+                "url": "https://api.github.com/repos/sas-irad/google-admin-client-bundle/zipball/8d5c3e24bc8e239b101c40ca131c16f9630af31a",
+                "reference": "8d5c3e24bc8e239b101c40ca131c16f9630af31a",
                 "shasum": ""
             },
             "require": {
-                "google/google-api-php-client": "1.0.4-beta",
+                "google/google-api-php-client": ">=1.1.2",
                 "php": ">=5.3.2",
                 "sas-irad/gmail-account-log-bundle": ">=1.0.2",
-                "sas-irad/google-oauth2-token-bundle": ">=1.1.1",
+                "sas-irad/google-oauth2-token-bundle": ">=1.1.2",
                 "sas-irad/person-info-bundle": ">=1.0.0"
             },
             "require-dev": {
@@ -1050,27 +1050,27 @@
             ],
             "description": "Bundle for interfacing with Google Admin API",
             "support": {
-                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/v1.0.4",
+                "source": "https://github.com/sas-irad/google-admin-client-bundle/tree/v1.0.5",
                 "issues": "https://github.com/sas-irad/google-admin-client-bundle/issues"
             },
-            "time": "2014-10-23 19:31:48"
+            "time": "2014-11-25 15:47:06"
         },
         {
             "name": "sas-irad/google-oauth2-token-bundle",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sas-irad/google-oauth2-token-bundle.git",
-                "reference": "beba64a33b847044571f4adef92d57b45e52d9dc"
+                "reference": "207813f3efc42bcb795cf3acb30e9a4462ca152c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sas-irad/google-oauth2-token-bundle/zipball/beba64a33b847044571f4adef92d57b45e52d9dc",
-                "reference": "beba64a33b847044571f4adef92d57b45e52d9dc",
+                "url": "https://api.github.com/repos/sas-irad/google-oauth2-token-bundle/zipball/207813f3efc42bcb795cf3acb30e9a4462ca152c",
+                "reference": "207813f3efc42bcb795cf3acb30e9a4462ca152c",
                 "shasum": ""
             },
             "require": {
-                "google/google-api-php-client": "1.0.4-beta",
+                "google/google-api-php-client": ">=1.1.2",
                 "php": ">=5.3.2",
                 "sas-irad/cosign-sso-bundle": ">=0.2.1",
                 "sas-irad/file-storage-bundle": ">=1.0.2"
@@ -1107,10 +1107,10 @@
             ],
             "description": "Bundle for managing Google OAuth2 authentication token",
             "support": {
-                "source": "https://github.com/sas-irad/google-oauth2-token-bundle/tree/v1.1.1",
+                "source": "https://github.com/sas-irad/google-oauth2-token-bundle/tree/v1.1.2",
                 "issues": "https://github.com/sas-irad/google-oauth2-token-bundle/issues"
             },
-            "time": "2014-08-13 19:22:58"
+            "time": "2014-11-25 15:39:14"
         },
         {
             "name": "sas-irad/penngroups-bundle",
@@ -1864,21 +1864,13 @@
             "time": "2014-10-17 12:53:44"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "google/google-api-php-client": 10
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
