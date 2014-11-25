@@ -38,13 +38,25 @@ table.check-user th {
             {% if key != 'ssh_script_run' %}
                 <tr>
                     {% if loop.first %}
-                        <th rowspan="{{ chkInfo.getData|length }}">Account Check:</th>
+                        <th rowspan="{{ chkInfo.getData|length - 1 }}">Account Check:</th>
                     {% endif %}
                     <td>{{ key }}</td>
                     <td>{% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}</td>
                 </tr>
             {% endif %}    
         {% endfor %}
+        <tr>
+            <th>Google Account:</th>
+            <td colspan="2">
+                {% if google %}
+                    Created on {{ google.getCreationTime|date('m/d/Y') }}<br/>
+                    Account is <strong>{% if google.isActivated %}ACTIVE{% elseif google.isAccountPending %}PENDING {{ google.getAccountAvailableWhen }}{% else %}INACTIVE{% endif %}</strong><br/>
+                    OU = {{ google.getOrgUnitPath }}
+                {% else %}
+                    None
+                {% endif %}
+            </td>
+        </tr>
     </table>
     
     <h4>Account Logs</h4>

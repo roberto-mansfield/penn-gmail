@@ -37,6 +37,10 @@ class UserInfoController extends Controller {
         
         // is the pennkey/penn_id valid?
         if ( $userinfo ) {
+            
+            // get google account info
+            $result['google'] = $gadmin->getGoogleUser($userinfo);
+            
             // get mail forwarding
             $email    = $gadmin->getUserId($userinfo->getPennkey());
             $result['forwards'] = $forwarding->getForwarding($email);
