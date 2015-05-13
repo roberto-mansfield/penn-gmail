@@ -6,15 +6,16 @@ use SAS\IRAD\GoogleAdminClientBundle\Service\GoogleAdminClient;
 use SAS\IRAD\PennGroupsBundle\Service\PennGroupsQueryCache;
 use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfoInterface;
 use SAS\IRAD\MailForwardingBundle\AuthCheck\AuthCheckService;
+use SAS\IRAD\MailForwardingBundle\Service\MailForwardingService;
 use Symfony\Component\Security\Core\SecurityContext;
-use Swift_Mailer;
+
 
 class UserHelper {
     
     private $googleAdmin;
     private $securityContext;
     private $penngroups;
-    private $mailer;
+    private $forwarding;
     private $authCheck;
     private $google_params;
     
@@ -22,13 +23,13 @@ class UserHelper {
                                 PennGroupsQueryCache $penngroups, 
                                 AuthCheckService $authCheck,
                                 SecurityContext $securityContext, 
-                                Swift_Mailer $mailer,
+                                MailForwardingService $forwarding,
                                 array $google_params) {
         
         $this->googleAdmin = $googleAdmin;
         $this->securityContext = $securityContext;
         $this->penngroups  = $penngroups;
-        $this->mailer = $mailer;
+        $this->forwarding = $forwarding;
         $this->authCheck = $authCheck;
         $this->google_params = $google_params;
     }
@@ -56,10 +57,17 @@ class UserHelper {
     }    
     
     public function userIsForwardingEligible() {
+
+        $eligible = false;
+
         $auth = $this->getAuthCheck();
         if ( $auth ) {
-            return ( $auth->getValue('forwarding_eligible') === 'yes' );
+            $eligible = ( $auth->getValue('forwarding_eligible') === 'yes' );
         }
-        return false;
+        
+        // consider someone forwarding eligible if they have an existing forwarding entry
+        $eligible = $eligible || ( count($this->forwarding->getForwarding($this->getPennEmail())) > 0 );
+        
+        return $eligible;
     }
 }

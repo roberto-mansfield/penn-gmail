@@ -2,4 +2,4 @@ services:
 
     user_helper:
         class: SAS\IRAD\GMailConfigureBundle\Service\UserHelper
-        arguments:  [ @google_admin_client, @penngroups.query_cache, @auth_check_service, @security.context, @mailer, %google_params% ]
+        arguments:  [ @google_admin_client, @penngroups.query_cache, @auth_check_service, @security.context, @mail_forwarding_service, %google_params% ]
