@@ -9,7 +9,8 @@
 /build/
 /vendor/
 /data/
-/bin/
+/bin/doctrine
+/bin/doctrine.php
 .buildpath
 .settings
 .project

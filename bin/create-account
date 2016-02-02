@@ -1,0 +1,7 @@
+#!/bin/bash
+
+SCRIPTDIR="$(cd "$( /usr/bin/dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BASEDIR="$(/usr/bin/dirname "$SCRIPTDIR")"
+
+/usr/bin/php $BASEDIR/app/console --env=prod google:create-account "$@"
+
