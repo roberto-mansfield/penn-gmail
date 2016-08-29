@@ -27,7 +27,7 @@
 		"sas-irad/file-storage-bundle" : ">=1.0.1",
 		"sas-irad/gmail-account-log-bundle" : ">=1.0.3",
 		"sas-irad/google-oauth2-token-bundle" : ">=1.1.2",
-		"sas-irad/google-admin-client-bundle" : ">=1.0.6",
+		"sas-irad/google-admin-client-bundle" : ">=1.0.7",
 		"sas-irad/penngroups-bundle" : ">=1.0.0",
 		"sas-irad/person-info-bundle" : ">=1.0.0"
 	},
