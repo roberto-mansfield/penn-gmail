@@ -18,8 +18,9 @@ class UserInfoController extends Controller {
         
         $lookup     = $this->get("penngroups.web_service_query");
         $forwarding = $this->get('mail_forwarding_service');
-        $authcheck  = $this->get('auth_check_service');
         $gadmin     = $this->get('google_admin_client');
+        $helper     = $this->get('user_helper');
+        $eligible   = $this->get('gmail_eligibility');
         
         if ( preg_match('/^\d{8}$/', $search_term) ) {
             $penn_id  = $search_term;
@@ -41,12 +42,16 @@ class UserInfoController extends Controller {
             // get google account info
             $result['google'] = $gadmin->getGoogleUser($userinfo);
             
+            $result['forwardingEligible'] = $helper->userIsForwardingEligible($userinfo);
+            
             // get mail forwarding
             $email    = $gadmin->getUserId($userinfo->getPennkey());
             $result['forwards'] = $forwarding->getForwarding($email);
             
-            // get account info
-            $result['chkInfo']  = $authcheck->authCheck($userinfo);
+            $result['gmailEligible'] = $eligible->isGmailEligible($userinfo);
+            
+            // get penngroup eligiblity info
+            $result['eligibilityGroups'] = $eligible->getUserEligibilityGroups($userinfo); 
         
             // get account logs
             $repo = $this->getDoctrine()->getRepository("GmailAccountLogBundle:AccountLog");

@@ -20,34 +20,48 @@ table.check-user th {
     <table class="check-user">
         <tr>
             <th>PennID:</th>
-            <td colspan="2">{{ userinfo.getPennId }}</td>
+            <td>{{ userinfo.getPennId }}</td>
         </tr>
         <tr>
             <th>Pennkey:</th>
-            <td colspan="2">{{ userinfo.getPennkey }}</td>
+            <td>{{ userinfo.getPennkey }}</td>
         </tr>
         <tr>
             <th>Name:</th>
-            <td colspan="2">{{ userinfo.getFirstName }} {{ userinfo.getLastName }}</td>
+            <td>{{ userinfo.getFirstName }} {{ userinfo.getLastName }}</td>
         </tr>
         <tr>
-            <th>Forwarding:</th>
-            <td colspan="2">{{ forwards|join('<br/>')|default('none') }}</td>
-        </tr>    
-        {% for key,value in chkInfo.getData %}
-            {% if key != 'ssh_script_run' %}
+            <th>Forwarding Eligible:</th>
+            <td>{% if forwardingEligible %}YES{% else %}NO{% endif %}</td>
+        </tr>
+        {% if forwardingEligible %}
+            <tr>
+                <th>Forwarding:</th>
+                <td>{{ forwards|join('<br/>')|default('none') }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <th>GMail Eligible:</th>
+            <td>{% if gmailEligible %}YES{% else %}NO{% endif %}</td>
+        </tr>
+        {% if gmailEligible %}
+            {% for penngroup in eligibilityGroups %}
                 <tr>
                     {% if loop.first %}
-                        <th rowspan="{{ chkInfo.getData|length - 1 }}">Account Check:</th>
+                        <th rowspan="{{ eligibilityGroups|length }}">Eligible Penngroups:</th>
                     {% endif %}
-                    <td>{{ key }}</td>
-                    <td>{% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}</td>
+                    <td>{{ penngroup }}</td>
                 </tr>
-            {% endif %}    
-        {% endfor %}
+            {% else %}
+                <tr>
+                    <th>Eligible Penngroups:</th>
+                    <td>No eligible penngroups found</td>
+                </tr>        
+            {% endfor %}
+        {% endif %}
         <tr>
             <th>Google Account:</th>
-            <td colspan="2">
+            <td>
                 {% if google %}
                     Created on {{ google.getCreationTime|date('m/d/Y') }}<br/>
                     Account is <strong>{% if google.isActivated %}ACTIVE{% elseif google.isAccountPending %}PENDING {{ google.getAccountAvailableWhen }}{% else %}INACTIVE{% endif %}</strong><br/>
