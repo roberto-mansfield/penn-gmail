@@ -141,17 +141,8 @@ class ForwardingController extends Controller {
      */
     public function forwardingIneligibleAction() {
         
-        $helper     = $this->get('user_helper');
-        $auth_check = $helper->getAuthCheck();
-        
-        if ( $auth_check->getValue('facstaff_exists') == 'yes' ) {
-            $link  = 'https://www.sas.upenn.edu/facstaff/account/';
-            $label = 'Configure my FacStaff account';
-        
-        } else {
-            $link  = 'http://www.sas.upenn.edu/computing/help/';
-            $label = 'View the SAS Computing FAQ pages';
-        }
+        $link  = 'http://www.sas.upenn.edu/computing/help/';
+        $label = 'View the SAS Computing FAQ pages';
         
         return compact('link', 'label');
     }
