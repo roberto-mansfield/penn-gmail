@@ -5,7 +5,6 @@ namespace SAS\IRAD\GMailConfigureBundle\Service;
 use SAS\IRAD\GoogleAdminClientBundle\Service\GoogleAdminClient;
 use SAS\IRAD\PennGroupsBundle\Service\PennGroupsQueryCache;
 use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfoInterface;
-use SAS\IRAD\MailForwardingBundle\AuthCheck\AuthCheckService;
 use SAS\IRAD\MailForwardingBundle\Service\MailForwardingService;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -13,29 +12,30 @@ use Symfony\Component\Security\Core\SecurityContext;
 class UserHelper {
     
     private $googleAdmin;
+    private $gmailEligibility;
     private $securityContext;
     private $penngroups;
     private $forwarding;
-    private $authCheck;
-    private $google_params;
     
-    public function __construct(GoogleAdminClient $googleAdmin, 
+    public function __construct(GoogleAdminClient $googleAdmin,
+                                GmailEligibility $gmailEligibility,
                                 PennGroupsQueryCache $penngroups, 
-                                AuthCheckService $authCheck,
                                 SecurityContext $securityContext, 
-                                MailForwardingService $forwarding,
-                                array $google_params) {
+                                MailForwardingService $forwarding) {
         
         $this->googleAdmin = $googleAdmin;
+        $this->gmailEligiblity = $gmailEligibility;
         $this->securityContext = $securityContext;
         $this->penngroups  = $penngroups;
         $this->forwarding = $forwarding;
-        $this->authCheck = $authCheck;
-        $this->google_params = $google_params;
     }
 
-    public function getPennEmail() {
-        $pennkey = $this->getUsername();
+    public function getPennEmail(PersonInfoInterface $person = null) {
+        if ( $person === null ) {
+            $pennkey = $this->getUsername();
+        } else {
+            $pennkey = $person->getPennkey();
+        }
         return $this->googleAdmin->getUserId($pennkey);
     }    
     
@@ -43,31 +43,31 @@ class UserHelper {
         return $this->securityContext->getToken()->getUser()->getUsername();
     }
 
-    public function getPersonInfo() {
-        $pennkey = $this->getUsername();
+    public function getPersonInfo($pennkey = false) {
+        if ( $pennkey === false ) {
+            $pennkey = $this->getUsername();
+        }
         return $this->penngroups->findByPennkey($pennkey);
     }
     
-    public function getGoogleUser() {
-        return $this->googleAdmin->getGoogleUser($this->getPersonInfo());
+    public function getGoogleUser(PersonInfoInterface $person = null) {
+        if ( $person === null ) {
+            $person = $this->getPersonInfo();
+        }        
+        return $this->googleAdmin->getGoogleUser($person);
     }
 
-    public function getAuthCheck() {
-        return $this->authCheck->authCheck($this->getPersonInfo());
-    }    
-    
-    public function userIsForwardingEligible() {
+    public function userIsForwardingEligible(PersonInfoInterface $person = null) {
 
-        $eligible = false;
-
-        $auth = $this->getAuthCheck();
-        if ( $auth ) {
-            $eligible = ( $auth->getValue('forwarding_eligible') === 'yes' );
+        if ( $person === null ) {
+            $person = $this->getPersonInfo();
         }
         
-        // consider someone forwarding eligible if they have an existing forwarding entry
-        $eligible = $eligible || ( count($this->forwarding->getForwarding($this->getPennEmail())) > 0 );
+        $eligible = $this->gmailEligiblity->isGmailEligible($person);
         
+        // consider someone forwarding eligible if they have an existing forwarding entry
+        $eligible = $eligible || ( count($this->forwarding->getForwarding($this->getPennEmail($person))) > 0 );
+
         return $eligible;
     }
 }

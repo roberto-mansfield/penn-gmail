@@ -1,5 +1,9 @@
 services:
 
+    gmail_eligibility:
+        class: SAS\IRAD\GMailConfigureBundle\Service\GmailEligibility
+        arguments:  [ @penngroups.query_cache, %google_params% ]
+
     user_helper:
         class: SAS\IRAD\GMailConfigureBundle\Service\UserHelper
-        arguments:  [ @google_admin_client, @penngroups.query_cache, @auth_check_service, @security.context, @mail_forwarding_service, %google_params% ]
+        arguments:  [ @google_admin_client, @gmail_eligibility, @penngroups.query_cache, @security.context, @mail_forwarding_service ]
