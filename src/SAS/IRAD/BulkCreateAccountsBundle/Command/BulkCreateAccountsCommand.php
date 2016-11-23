@@ -29,18 +29,17 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
 
         $rebuild_cache = $input->getOption('rebuild-cache');
         
-        $helper = $this->getContainer()->get('bulk_command_helper');
-        $ldap   = $this->getContainer()->get("penngroups.ldap_query");
-        $lookup = $this->getContainer()->get("penngroups.web_service_query");
-        $google = $this->getContainer()->get("google_admin_client");
+        $helper   = $this->getContainer()->get('bulk_command_helper');
+        $google   = $this->getContainer()->get("google_admin_client");
+        $eligible = $this->getContainer()->get("bulk_gmail_eligibility");
         
         $em = $this->getContainer()->get('doctrine')->getManager("account_cache");
         // disable sql logging (in case we are in dev) to avoid memory crash
         $em->getConnection()->getConfiguration()->setSQLLogger(null);
         $cacheRepo = $em->getRepository("BulkCreateAccountsBundle:Account");
         
-        $students = $helper->getEligibleStudents();
-
+        $records = $eligible->getEligibleRecords();
+        
         if ( $rebuild_cache ) {
             $output->writeln("Clearing cache entries...");
             $cacheRepo->deleteAll();
@@ -56,7 +55,7 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
         // process each student in the list
         $count = 0;
         $output->writeln("Checking for new accounts...");
-        foreach ( $students as $penn_id ) {
+        foreach ( $records as $penn_id => $record ) {
 
             $account = $cacheRepo->findOneByPennId($penn_id);
             
@@ -65,11 +64,8 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
                 $account->setPennId($penn_id);
             }
 
-            if ( !$account->getPennkey() ) {
-                $result = $ldap->findByPennId($penn_id);
-                if ( $result && $result->getPennkey() ) {
-                    $account->setPennkey($result->getPennkey());
-                }
+            if ( !$account->getPennkey() && $record['pennkey'] ) {
+                $account->setPennkey($record['pennkey']);
             }
 
             if ( $rebuild_cache ) {
@@ -79,12 +75,16 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
             }
             
             if ( !$account->getCreated() ) {
-                $personInfo = $lookup->findByPennId($penn_id);
+                
+                $personInfo = new PersonInfo($record);
+                $groups = $eligible->getUserEligibilityReason($personInfo);
+                
                 if ( !$personInfo ) {
                     $helper->errorLog("No lookup data found for penn_id: $penn_id");
                 } else {
                     try {
-                        $google->createGoogleUser($personInfo, sha1($helper->randomPassword()));
+                        $google->createGoogleUser($personInfo, sha1($helper->randomPassword()), "Student eligible via $groups");
+                        $output->writeln("$penn_id/{$record['pennkey']} eligible via $groups");
                         $account->setCreated(true);
                     } catch (\Exception $e) {
                         $helper->errorLog("Exception occurred creating account for penn_id: $penn_id, pennkey: " . $account->getPennkey() . ", error: " . $e->getMessage());
@@ -104,6 +104,12 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
                 $output->write('.');
                 $em->clear();
             }
+            
+            if ( $count == 3 ) {
+                $output->writeln("Bailout!");
+                exit;
+            }
+            
             $count++;
         }
         $output->writeln('.');

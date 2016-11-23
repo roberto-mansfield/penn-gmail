@@ -4,4 +4,8 @@ parameters:
 services:
     bulk_command_helper:
         class:      SAS\IRAD\BulkCreateAccountsBundle\Service\BulkCommandHelperService
-        arguments:  [ %bulk_command%, %account_logger% ]
+        arguments:  [ %bulk_command% ]
+        
+    bulk_gmail_eligibility:
+        class:      SAS\IRAD\BulkCreateAccountsBundle\Service\BulkGmailEligibility
+        arguments:  [ @penngroups.web_service_query, %google_params% ]        
