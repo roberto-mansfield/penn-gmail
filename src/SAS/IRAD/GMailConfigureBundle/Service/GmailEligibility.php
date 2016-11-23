@@ -6,15 +6,15 @@ use SAS\IRAD\PennGroupsBundle\Service\PennGroupsQueryCache;
 use SAS\IRAD\PersonInfoBundle\PersonInfo\PersonInfoInterface;
 
 /**
- * Interface with Penngroups to determine eligibility status for Gmail
+ * Interface with Penngroups to determine eligibility status for Gmail.
  * @author robertom
  *
  */
 class GmailEligibility {
     
-    private $eligibleGroups;
-    private $penngroups;
-    private $params;
+    protected $eligibleGroups;
+    protected $penngroups;
+    protected $params;
     
     public function __construct(PennGroupsQueryCache $penngroups, array $google_params) {
         $this->penngroups  = $penngroups;
@@ -50,7 +50,7 @@ class GmailEligibility {
      * @return string
      */
     public function getUserEligibilityReason(PersonInfoInterface $person) {
-        return implode("; ", array_intersect($this->getUserEligibilityGroups($person), $memberships));
+        return implode("; ", array_intersect($this->getUserEligibilityGroups($person), $this->getUserEligibilityGroups($person)));
     }
     
     /**
@@ -79,25 +79,29 @@ class GmailEligibility {
     }
 
     /**
-     * Return the full list of eligible penn_id's
+     * Return the full list of people eligible for google accounts
      * @return array
      */
-    public function getEligiblePennIds() {
+    public function getEligibleRecords() {
 
-        $penn_ids = array();
-        $results = $this->penngroups->getGroupMembers($group_id);
+        $records = array();
+        $results = $this->penngroups->getGroupMembers($this->params['eligibility-list']);
         
         foreach ( $results as $record ) {
-            // Members of the penngroups which are themselves penngroups
-            // return an id number rather than a penn_id so we need to filter
-            // those out. Also, omit "fake" penn_id's if they come through
+            
+            // skip non-person records
+            if ( $record['source_id'] != 'pennperson' ) {
+                continue;
+            }
+            
+            // Make sure we have a well-formed penn_id
             $penn_id = $record['penn_id'];
             if ( preg_match("/^\d{8}$/", $penn_id) && !preg_match("/^0\d{7}$/", $penn_id) ) {
-                $penn_ids[$penn_id] = $penn_id;
+                $records[$penn_id] = $record;
             }
         }
         
-        return $penn_ids;
+        return $records;
     }    
     
 }
