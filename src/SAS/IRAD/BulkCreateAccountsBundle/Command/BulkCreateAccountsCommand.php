@@ -105,11 +105,6 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
                 $em->clear();
             }
             
-            if ( $count == 3 ) {
-                $output->writeln("Bailout!");
-                exit;
-            }
-            
             $count++;
         }
         $output->writeln('.');
