@@ -84,7 +84,6 @@ class BulkCreateAccountsCommand extends ContainerAwareCommand {
                 } else {
                     try {
                         $google->createGoogleUser($personInfo, sha1($helper->randomPassword()), "Student eligible via $groups");
-                        $output->writeln("$penn_id/{$record['pennkey']} eligible via $groups");
                         $account->setCreated(true);
                     } catch (\Exception $e) {
                         $helper->errorLog("Exception occurred creating account for penn_id: $penn_id, pennkey: " . $account->getPennkey() . ", error: " . $e->getMessage());
